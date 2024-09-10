@@ -91,7 +91,7 @@ class SendMessage extends Notification
                         "notification" => [
                             "title" => "",
                             "body" => $message,
-                            "icon" => asset('assets/images/img/logo-sm-barman.png')
+                            "icon" => "https://barmansystem.moshrefiholding.com/assets/images/img/logo-sm-barman.png"
                         ],
                     ]
                 ]
