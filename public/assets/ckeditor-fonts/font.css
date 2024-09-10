@@ -1,0 +1,57 @@
+@font-face {
+    font-family: 'Vazir';
+    src: url('../fonts/farsi-fonts/vazir-400.woff2') format('woff2'),
+    url('../fonts/farsi-fonts/vazir-400.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Noora';
+    src: url('../fonts/farsi-fonts/noora-400.woff2') format('woff2'),
+    url('../fonts/farsi-fonts/noora-400.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Aviny';
+    src: url('../fonts/farsi-fonts/aviny-700.woff2') format('woff2'),
+    url('../fonts/farsi-fonts/aviny-700.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Iran-sans';
+    src: url('../fonts/farsi-fonts/iran-sans-400.woff2') format('woff2'),
+    url('../fonts/farsi-fonts/iran-sans-400.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Iran-yekan';
+    src: url('../fonts/farsi-fonts/iran-yekan-400.woff2') format('woff2'),
+    url('../fonts/farsi-fonts/iran-yekan-400.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'Nazanin';
+    src: url('../fonts/farsi-fonts/B-Nazanin.woff') format('woff2'),
+    url('../fonts/farsi-fonts/B-Nazanin.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+/*@font-face {*/
+/*    font-family: 'Titr';*/
+/*    src: url('../fonts/farsi-fonts/BTitr.woff') format('woff2'),*/
+/*    url('../fonts/farsi-fonts/BTitr.woff') format('woff');*/
+/*    font-weight: normal;*/
+/*    font-style: normal;*/
+/*}*/
+
+body {
+    font-family: 'nazanin';
+}
