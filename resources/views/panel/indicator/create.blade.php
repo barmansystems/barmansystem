@@ -70,9 +70,9 @@
                                     <div class="mb-2 col-xl-3 col-lg-3 col-md-3">
                                         <label for="attachment" class="form-label">سربرگ</label>
                                         <select name="header" class="form-control" id="header">
-                                            <option value="info">سربرگ فارسی پرسو تجارت (Info)</option>
-                                            <option value="sale">سربرگ فارسی پرسو تجارت (Sale)</option>
-                                            <option value="english">سربرگ انگلیسی پرسو تجارت</option>
+                                            <option value="info">سربرگ فارسی بارمان سیستم (Info)</option>
+                                            <option value="sale">سربرگ فارسی بارمان سیستم (Sale)</option>
+                                            <option value="english">سربرگ انگلیسی بارمان سیستم</option>
                                         </select>
                                         @error('header')
                                         <div class="invalid-feedback text-danger d-block">{{ $message }}</div>
@@ -86,6 +86,14 @@
                                             @endforeach
                                         </select>
 
+                                    </div>
+                                    <div class="mb-2 col-xl-3 col-lg-3 col-md-3">
+                                        <label for="attachment" class="form-label">خطاب به</label>
+                                        <input type="text" class="form-control" name="to" id="attachment"
+                                               value="{{ old('to') }}">
+                                        @error('to')
+                                        <div class="invalid-feedback text-danger d-block">{{ $message }}</div>
+                                        @enderror
                                     </div>
                                 </div>
                                 <div class="row">

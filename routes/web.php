@@ -113,6 +113,8 @@ Route::middleware(['auth','web'])->prefix('/panel')->group(function () {
     Route::get('indicator/inbox', [IndicatorController::class, 'inbox'])->name('indicator.inbox')->middleware('can:indicator');
     //    Route::post('/export-indicator-pdf', [IndicatorController::class, 'exportToPdf'])->middleware('can:indicator');
     Route::get('download/indicator/{id}', [IndicatorController::class, 'downloadFromIndicator'])->name('indicator.download')->middleware('can:indicator');
+    Route::get('export/excel/indicators', [IndicatorController::class, 'exportExcelIndicator'])->name('indicator.excel')->middleware('can:indicator');
+
 
     //PaymentsOrder
     Route::resource('payments_order', PaymentOrderController::class)->except('show');

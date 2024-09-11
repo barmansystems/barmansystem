@@ -11,14 +11,28 @@ use Hekmatinasser\Verta\Verta;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Notification;
+use Maatwebsite\Excel\Facades\Excel;
 use PDF as PDF;
 
 class IndicatorController extends Controller
 {
     public function index()
     {
-        $indicators = Indicator::where('user_id', auth()->id())->latest()->paginate(30);
-        return view('panel.indicator.index', compact(['indicators']));
+        $indicators = Indicator::query();
+
+        if (auth()->user()->isCEO() || auth()->user()->isAdmin()) {
+            if (request()->input('number')) {
+                $indicators->where('number', 'LIKE', '%' . request()->input('number') . '%');
+            }
+        } else {
+            $indicators->where('user_id', auth()->id());
+            if (request()->input('number')) {
+                $indicators->where('number', 'LIKE', '%' . request()->input('number') . '%');
+            }
+        }
+
+        $indicators = $indicators->latest()->paginate(30);
+        return view('panel.indicator.index', compact('indicators'));
     }
 
 
@@ -37,6 +51,7 @@ class IndicatorController extends Controller
         $Indicator->attachment = $request->attachment;
         $Indicator->header = $request->header;
         $Indicator->text = $request->text;
+        $Indicator->to = $request->to;
         $Indicator->user_id = auth()->id();
         $Indicator->save();
 
@@ -79,6 +94,7 @@ class IndicatorController extends Controller
         $indicator->attachment = $request->attachment;
         $indicator->header = $request->header;
         $indicator->text = $request->text;
+        $indicator->to = $request->to;
         $indicator->save();
         $indicator->users()->sync($request->receiver);
         if (!is_null($request->receiver)) {
@@ -137,6 +153,10 @@ class IndicatorController extends Controller
         return view('panel.indicator.inbox', compact(['inbox']));
     }
 
+    public function exportExcelIndicator()
+    {
+        return Excel::download(new \App\Exports\IndicatorsExport, 'indicator.xlsx');
+    }
 
     public function exportPdfInfoPersian($title, $text, $date, $number, $attachment)
     {

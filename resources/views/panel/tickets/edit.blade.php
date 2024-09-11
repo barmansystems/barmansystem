@@ -104,7 +104,7 @@
                                             <div class="conversation-text">
                                                 <div class="ctext-wrap">
                                                     <i>{{ $message['user']['name'].' '. $message['user']['family'] }}</i>
-                                                    <p>{{ $message['text'] }}</p>
+                                                    <p>{!! nl2br(e($message['text'])) !!}</p>
                                                     <hr class="my-0 mt-2">
                                                     <i class="text-muted">{{ verta($message['created_at'])->timezone('Asia/Tehran')->format('H:i - Y/m/d') }}</i>
                                                 </div>
@@ -152,7 +152,7 @@
                                             <div class="conversation-text">
                                                 <div class="ctext-wrap">
                                                     <i>{{ $message['user']['name'].' '. $message['user']['family'] }}</i>
-                                                    <p>{{ $message['text'] }}</p>
+                                                    <p>{!! nl2br(e($message['text'])) !!}</p>
                                                     <hr class="my-0 mt-2">
                                                     <i class="text-muted">{{ verta($message['created_at'])->format('H:i - Y/m/d') }}</i>
                                                 </div>
