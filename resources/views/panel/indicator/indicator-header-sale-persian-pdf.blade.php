@@ -12,25 +12,27 @@
             direction: rtl !important;
             line-height: 3em;
         }
-        .date{
+        .date {
             position: absolute;
-            top: 8.7rem;
-            left: 4rem;
+            top: 6rem;
+            left: 7rem;
             font-size: 1.4rem;
 
         }
-        .number{
+
+        .number {
             position: absolute;
-            top: 11.5rem;
-            left: 3.5rem;
-            font-size: 1.3rem;
+            top: 8.9rem;
+            left: 6rem;
+            font-size: 1.4rem;
             width: 8rem;
             text-align: center;
         }
-        .attachment{
+
+        .attachment {
             position: absolute;
-            top: 14.1rem;
-            left: 3rem;
+            top: 11.5rem;
+            left: 6rem;
             font-size: 1.4rem;
             width: 8rem;
             text-align: center;

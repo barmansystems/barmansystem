@@ -12,23 +12,23 @@
         }
         .date{
             position: absolute;
-            top: 2.2rem;
-            right: 3rem;
+            top: 7.3rem;
+            right: 6rem;
             font-size: 1.4rem;
 
         }
         .number{
             position: absolute;
-            top: 5rem;
-            right: 2.5rem;
+            top: 10.2rem;
+            right: 5rem;
             font-size: 1.3rem;
             width: 8rem;
             text-align: center;
         }
         .attachment{
             position: absolute;
-            top: 7.6rem;
-            right: 1rem;
+            top: 12.8rem;
+            right: 5.2rem;
             font-size: 1.4rem;
             width: 8rem;
             text-align: center;
@@ -39,7 +39,7 @@
 <body>
 
     <div class="date">
-{{--        {{\Hekmatinasser\Verta\Verta::parse($date)->toCarbon()->format('Y-m-d')}}--}}
+        {{\Hekmatinasser\Verta\Verta::parse($date)->toCarbon()->format('Y-m-d')}}
     </div>
     <div class="number">
         {{$number}}
