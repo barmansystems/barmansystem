@@ -153,6 +153,15 @@
             if(company == 'barman'){
                 return 'بارمان سیستم';
             }
+            if(company == 'sayman'){
+                return 'سایمان داده';
+            }
+            if(company == 'adakhmarah'){
+                return 'آداک همراه';
+            }
+            if(company == 'adakpetro'){
+                return 'آداک پترو';
+            }
         }
 
     </script>

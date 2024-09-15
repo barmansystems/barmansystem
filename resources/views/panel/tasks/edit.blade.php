@@ -154,15 +154,24 @@
         });
 
 
-        function company(company) {
-            if (company == 'parso') {
+        f function company(company) {
+            if(company == 'parso'){
                 return 'پرسو تجارت';
             }
-            if (company == 'adaktejarat') {
+            if(company == 'adaktejarat'){
                 return 'آداک تجارت';
             }
-            if (company == 'barman') {
+            if(company == 'barman'){
                 return 'بارمان سیستم';
+            }
+            if(company == 'sayman'){
+                return 'سایمان داده';
+            }
+            if(company == 'adakhmarah'){
+                return 'آداک همراه';
+            }
+            if(company == 'adakpetro'){
+                return 'آداک پترو';
             }
         }
 

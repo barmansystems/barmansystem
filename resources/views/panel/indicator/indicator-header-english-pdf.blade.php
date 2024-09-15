@@ -3,7 +3,6 @@
 <head>
     <meta charset="UTF-8">
     <style>
-
         .div-indicator {
             position: absolute;
             top: 16rem;
@@ -15,7 +14,6 @@
             top: 7.3rem;
             right: 6rem;
             font-size: 1.4rem;
-
         }
         .number{
             position: absolute;
@@ -37,7 +35,6 @@
 </head>
 
 <body>
-
     <div class="date">
         {{\Hekmatinasser\Verta\Verta::parse($date)->toCarbon()->format('Y-m-d')}}
     </div>
@@ -47,9 +44,6 @@
     <div class="attachment">
         {{$attachment}}
     </div>
-
-
-
 <div class="div-indicator">
     {!! $text !!}
 </div>

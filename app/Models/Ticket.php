@@ -21,6 +21,9 @@ class Ticket extends Model
         'parso' => 'پرسو تجارت ایرانیان',
         'barman' => 'بارمان سیستم',
         'adaktejarat' => 'آداک تجارت خورشید قشم',
+        'adakhamrah' => 'آداک همراه خورشید قشم',
+        'adakpetro' => 'آداک پترو خورشید قشم',
+        'sayman' => 'سایمان داده',
     ];
 
     public function sender()

@@ -220,6 +220,15 @@ function getCompany($data)
         case "barman":
             $company = 'بارمان سیستم سرزمین پارس';
             break;
+        case "sayman":
+            $company = 'فناوران رایانه سایمان داده';
+            break;
+        case "adakhamrah":
+            $company = 'آداک همراه خورشید قشم';
+            break;
+        case "adakpetro":
+            $company = 'آداک پترو خورشید قشم';
+            break;
     }
     return $company;
 }
