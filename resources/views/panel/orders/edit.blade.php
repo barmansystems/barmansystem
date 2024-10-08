@@ -453,7 +453,7 @@
                 }
             });
 
-            $(document).on('change', '#other_products_table input[name="other_prices[]"]', function () {
+            $(document).on('input', '#other_products_table input[name="other_prices[]"]', function () {
                 CalcOtherProductInvoice(this)
             })
 

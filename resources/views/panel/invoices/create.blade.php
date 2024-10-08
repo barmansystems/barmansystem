@@ -525,7 +525,7 @@
                     $('#btn_form').attr('disabled', 'disabled').text('درحال محاسبه...');
                 }
             })
-            $(document).on('change', '#other_products_table input[name="other_prices[]"]', function () {
+            $(document).on('input', '#other_products_table input[name="other_prices[]"]', function () {
                 CalcOtherProductInvoice(this)
             })
             $(document).on('keyup', '#other_products_table input[name="other_discount_amounts[]"]', function (e) {
