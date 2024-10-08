@@ -211,11 +211,11 @@ table th{
 }
 
 .btn-download {
-    background: #0096d6;
+    background: #EE384E;
 }
 
 .btn-download:after {
-    background: #037baf;
+    background: #ea263e;
 }
 
 .btn-print{
@@ -277,7 +277,7 @@ table th{
 .invoice-1 .invoice-id{
     border-radius:0 75px 75px 0;
     z-index: 0;
-    background-color: #0096d6;
+    background-color: #EE384E;
 }
 
 .invoice-1 .payment-method-list-1{
@@ -318,7 +318,7 @@ table th{
 }
 
 .invoice-1 .inv-title-1{
-    color: #0096d6;
+    color: #EE384E;
     margin-bottom: 5px;
 }
 
@@ -389,7 +389,7 @@ table th{
 }
 
 .invoice-1 .active-color{
-    color: #0096d6!important;
+    color: #EE384E!important;
 }
 
 .invoice-1 .invoice-bottom h3 {
