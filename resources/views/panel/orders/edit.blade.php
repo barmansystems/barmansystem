@@ -443,11 +443,11 @@
 
             });
 
-            $(document).on('change', '#other_products_table input[name="other_counts[]"]', function () {
+            $(document).on('input', '#other_products_table input[name="other_counts[]"]', function () {
                 $('#btn_form').attr('disabled', 'disabled').text('درحال محاسبه...');
                 CalcOtherProductInvoice(this)
             })
-            $(document).on('keyup', '#other_products_table input[name="other_prices[]"]', function (e) {
+            $(document).on('input', '#other_products_table input[name="other_prices[]"]', function (e) {
                 if (this.defaultValue != this.value) {
                     $('#btn_form').attr('disabled', 'disabled').text('درحال محاسبه...');
                 }
