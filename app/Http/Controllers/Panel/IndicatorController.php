@@ -49,9 +49,9 @@ class IndicatorController extends Controller
         $Indicator->date = $request->date;
         $Indicator->number = $this->generateUniqueCode();
         $Indicator->attachment = $request->attachment;
+        $Indicator->to = $request->to;
         $Indicator->header = $request->header;
         $Indicator->text = $request->text;
-        $Indicator->to = $request->to;
         $Indicator->user_id = auth()->id();
         $Indicator->save();
 
@@ -93,8 +93,8 @@ class IndicatorController extends Controller
         $indicator->number = $this->generateUniqueCode();
         $indicator->attachment = $request->attachment;
         $indicator->header = $request->header;
-        $indicator->text = $request->text;
         $indicator->to = $request->to;
+        $indicator->text = $request->text;
         $indicator->save();
         $indicator->users()->sync($request->receiver);
         if (!is_null($request->receiver)) {
@@ -134,6 +134,12 @@ class IndicatorController extends Controller
 //        return $this->exportPdfEnglish($title, $text, $date, $number, $attachment);
 //    }
 
+    public function exportExcelIndicator()
+    {
+        return Excel::download(new \App\Exports\IndicatorsExport, 'indicator.xlsx');
+    }
+
+
     public function downloadFromIndicator($id)
     {
         $indicator = Indicator::whereId($id)->withTrashed()->first();
@@ -153,10 +159,6 @@ class IndicatorController extends Controller
         return view('panel.indicator.inbox', compact(['inbox']));
     }
 
-    public function exportExcelIndicator()
-    {
-        return Excel::download(new \App\Exports\IndicatorsExport, 'indicator.xlsx');
-    }
 
     public function exportPdfInfoPersian($title, $text, $date, $number, $attachment)
     {
@@ -167,7 +169,7 @@ class IndicatorController extends Controller
             'format' => 'A4',
             'orientation' => 'P',
             'default_font_size' => '10',
-            'default_font' => $this->extractName($text),
+            'default_font' => 'sahel',
             'display_mode' => 'fullpage',
             'watermark_text_alpha' => 1,
             'watermark_image_path' => $backgroundImage,
@@ -189,7 +191,7 @@ class IndicatorController extends Controller
             'format' => 'A4',
             'orientation' => 'P',
             'default_font_size' => '10',
-            'default_font' => $this->extractName($text),
+            'default_font' => 'sahel',
             'display_mode' => 'fullpage',
             'watermark_text_alpha' => 1,
             'watermark_image_path' => $backgroundImage,
@@ -210,7 +212,7 @@ class IndicatorController extends Controller
             'format' => 'A4',
             'orientation' => 'P',
             'default_font_size' => '10',
-            'default_font' => $this->extractName($text),
+            'default_font' => 'sahel',
             'display_mode' => 'fullpage',
             'watermark_text_alpha' => 1,
             'watermark_image_path' => $backgroundImage,
@@ -225,23 +227,23 @@ class IndicatorController extends Controller
     }
 
 
-    public function extractName($text)
-    {
-        $tempDiv = new \DOMDocument();
-        $tempDiv->loadHTML('<?xml encoding="utf-8" ?>' . $text);
-        $spanElements = $tempDiv->getElementsByTagName('span');
-        $fontFamily = null;
-        foreach ($spanElements as $span) {
-            $style = $span->getAttribute('style');
-            preg_match('/font-family\s*:\s*([^;]+)(;|$)/', $style, $matches);
-
-            if (isset($matches[1])) {
-                $fontFamily = trim($matches[1], " '\"");
-                break;
-            }
-        }
-        return $fontFamily ?? 'Nazanin';
-    }
+//    public function extractName($text)
+//    {
+//        $tempDiv = new \DOMDocument();
+    /*        $tempDiv->loadHTML('<?xml encoding="utf-8" ?>' . $text);*/
+//        $spanElements = $tempDiv->getElementsByTagName('span');
+//        $fontFamily = null;
+//        foreach ($spanElements as $span) {
+//            $style = $span->getAttribute('style');
+//            preg_match('/font-family\s*:\s*([^;]+)(;|$)/', $style, $matches);
+//
+//            if (isset($matches[1])) {
+//                $fontFamily = trim($matches[1], " '\"");
+//                break;
+//            }
+//        }
+//        return $fontFamily ?? 'dana';
+//    }
 
     public function generateUniqueCode()
     {
@@ -266,5 +268,35 @@ class IndicatorController extends Controller
         } while ($existingIndicator);
 
         return $uniqueCode;
+    }
+
+    public function previewIndicator(Request $request)
+    {
+//        dd($request->input('header'));
+        if ($request->input('header') == 'info'){
+            return view('panel.indicator.preview-info', [
+                'date' => $request->input('date'),
+                'number' => $request->input('number'),
+                'attachment' => $request->input('attachment'),
+                'text' => $request->input('text')
+            ]);
+        }
+        if ($request->input('header') == 'sale'){
+            return view('panel.indicator.preview-sale', [
+                'date' => $request->input('date'),
+                'number' => $request->input('number'),
+                'attachment' => $request->input('attachment'),
+                'text' => $request->input('text')
+            ]);
+        }
+        if ($request->input('header') == 'english'){
+            return view('panel.indicator.preview-english', [
+                'date' => $request->input('date'),
+                'number' => $request->input('number'),
+                'attachment' => $request->input('attachment'),
+                'text' => $request->input('text')
+            ]);
+        }
+
     }
 }

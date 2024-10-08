@@ -37,6 +37,11 @@ return [
             'useOTL' => 0xFF,
             'useKashida' => 75,
         ],
+        'sahel' => [
+            'R'  => 'sahel-300.ttf',
+            'useOTL' => 0xFF,
+            'useKashida' => 75,
+        ],
     ],
     'auto_language_detection'  => false,
     'temp_dir'                 => rtrim(sys_get_temp_dir(), DIRECTORY_SEPARATOR),

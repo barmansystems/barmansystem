@@ -16,6 +16,7 @@ use App\Http\Controllers\Panel\InvoiceController;
 use App\Http\Controllers\Panel\LeaveController;
 use App\Http\Controllers\Panel\NoteController;
 use App\Http\Controllers\Panel\OffSiteProductController;
+use App\Http\Controllers\Panel\OrderController;
 use App\Http\Controllers\Panel\OrderStatusController;
 use App\Http\Controllers\Panel\PacketController;
 use App\Http\Controllers\Panel\PaymentOrderController;
@@ -27,6 +28,7 @@ use App\Http\Controllers\Panel\PurchaseController;
 use App\Http\Controllers\Panel\ReportController;
 use App\Http\Controllers\Panel\RoleController;
 use App\Http\Controllers\Panel\SaleReportController;
+use App\Http\Controllers\Panel\SetadFeeController;
 use App\Http\Controllers\Panel\SmsHistoryController;
 use App\Http\Controllers\Panel\SoftwareUpdateController;
 use App\Http\Controllers\Panel\TaskController;
@@ -105,6 +107,27 @@ Route::middleware(['auth','web'])->prefix('/panel')->group(function () {
     Route::post('saveFcmToken', [PanelController::class, 'saveFCMToken']);
     Route::get('activities/{permission}', [PanelController::class, 'activity'])->name('activities.index');
 
+
+    Route::resource('/orders', OrderController::class);
+    Route::get('order-action/{order}', [OrderController::class, 'orderAction'])->name('order.action');
+    Route::post('order-action/{invoice}', [OrderController::class, 'actionStore'])->name('order.action.store');
+    Route::put('order-invoice-file/{order_action}/delete', [OrderController::class, 'deleteInvoiceFile'])->name('order.invoice.action.delete');
+    Route::put('order-factor-file/{order_action}/delete', [OrderController::class, 'deleteFactorFile'])->name('order.factor.action.delete');
+//    Route::match(['get', 'post'], '/order/search/orders', [OrderController::class, 'search'])->name('orders.search');
+    Route::post('excel/orders', [OrderController::class, 'excel'])->name('orders.excel');
+    Route::get('get-customer-order-status/{id}', [OrderController::class, 'getCustomerOrderStatus'])->name('order.get.customer.order.status');
+
+
+
+    //setad fee
+    Route::resource('setad-fee', SetadFeeController::class);
+    Route::get('search-setad-fee/{order}', [SetadFeeController::class,'search']);
+    Route::get('setad-fee/{order}/action', [SetadFeeController::class,'action'])->name('setad-fee.action');
+    Route::post('setad-fee/{order}/action/store', [SetadFeeController::class,'actionStore'])->name('setad-fee.store.action');
+    Route::put('receipt-file/{id}/delete', [SetadFeeController::class, 'deleteReceiptFile'])->name('receipt.action.delete');
+
+
+
     // Users
     Route::resource('users', UserController::class)->except('show');
 
@@ -113,6 +136,7 @@ Route::middleware(['auth','web'])->prefix('/panel')->group(function () {
     Route::get('indicator/inbox', [IndicatorController::class, 'inbox'])->name('indicator.inbox')->middleware('can:indicator');
     //    Route::post('/export-indicator-pdf', [IndicatorController::class, 'exportToPdf'])->middleware('can:indicator');
     Route::get('download/indicator/{id}', [IndicatorController::class, 'downloadFromIndicator'])->name('indicator.download')->middleware('can:indicator');
+    Route::post('preview/indicator', [IndicatorController::class, 'previewIndicator'])->name('indicator.preview')->middleware('can:indicator');
     Route::get('export/excel/indicators', [IndicatorController::class, 'exportExcelIndicator'])->name('indicator.excel')->middleware('can:indicator');
 
 

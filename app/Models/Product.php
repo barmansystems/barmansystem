@@ -18,7 +18,11 @@ class Product extends Model
     ];
 
     const UNITS = [
-        'number' => 'عدد'
+        'number' => 'عدد',
+        'pack' => 'بسته',
+        'box' => 'جعبه',
+        'kg' => 'کیلوگرم',
+        'ton ' => 'تن',
     ];
 
     const PRICE_TYPE = [

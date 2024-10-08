@@ -18,8 +18,8 @@ class CreateCustomersTable extends Migration
             $table->string('user_id');
             $table->string('name')->unique();
             $table->string('code')->unique()->nullable();
-            $table->enum('type',['government','private']);
-            $table->enum('customer_type', ['system','city','tehran','single-sale']);
+            $table->enum('type',['government','private'])->nullable();;
+            $table->enum('customer_type', ['setad','free-sale','online-sale']);
             $table->string('economical_number')->comment('شماره اقتصادی')->nullable();
             $table->string('national_number')->comment('شماره ملی');
             $table->string('province');

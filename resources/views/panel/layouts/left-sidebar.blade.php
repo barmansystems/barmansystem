@@ -180,7 +180,7 @@
 
                 {{-- Orders --}}
                 @canany(['invoices-list','buy-orders-list','sale-reports-list','price-requests-list'])
-                    @php $active_side = active_sidebar(['invoices','invoices/create','invoices/{invoice}/edit','search/invoices','sale-reports','sale-reports/create','sale-reports/{sale_report}/edit','search/sale-reports','invoice-action/{invoice}','orders-status/{invoice}','price-requests','price-requests/create','price-requests/{price_request}/edit','price-requests/{price_request}','buy-orders','buy-orders/create','buy-orders/{buy_order}/edit','buy-orders/{buy_order}','search/buy-orders']); @endphp
+                    @php $active_side = active_sidebar(['invoices','invoices/create','invoices/{invoice}/edit','setad-fee/{order}/action','search/invoices','setad-fee','setad-fee/create','setad-fee/{setad_fee}/edit','setad-fee/{setad_fee}', 'sale-reports','sale-reports/create','sale-reports/{sale_report}/edit','search/sale-reports','invoice-action/{invoice}','orders-status/{invoice}','price-requests','price-requests/create','price-requests/{price_request}/edit','price-requests/{price_request}','buy-orders','buy-orders/create','buy-orders/{buy_order}/edit','buy-orders/{buy_order}','search/buy-orders','orders','orders/create','orders/{order}/edit','search/orders','order-action/{order}','customer-orders-status/{orders}']); @endphp
                     <li class="{{ $active_side ? 'menuitem-active' : '' }}">
                         <a href="#orders" data-bs-toggle="collapse" aria-expanded="false" aria-controls="orders">
                             <i class="ri-shopping-cart-line"></i>
@@ -189,6 +189,22 @@
                         </a>
                         <div class="collapse {{ $active_side ? 'show' : '' }}" id="orders">
                             <ul class="nav-second-level">
+                                @can('customer-order-list')
+                                    @php $active_item = active_sidebar(['orders','orders/create','orders/{order}/edit','search/orders','order-action/{orders}','customer-orders-status/{orders}','order-action/{order}']); @endphp
+                                    <li class="{{ $active_item ? 'menuitem-active' : '' }}">
+                                        <a href="{{ route('orders.index') }}" {{ $active_item ? 'active' : '' }}>
+                                            سفارشات مشتری
+                                        </a>
+                                    </li>
+                                @endcan
+                                @can('setad-fee-list')
+                                    @php $active_item = active_sidebar(['setad-fee','setad-fee/create','setad-fee/{order}/action','setad-fee/{setad_fee}/edit','setad-fee/{setad_fee}']); @endphp
+                                    <li class="{{ $active_item ? 'menuitem-active' : '' }}">
+                                        <a href="{{ route('setad-fee.index') }}" {{ $active_item ? 'active' : '' }}>
+                                            کارمزد ستاد
+                                        </a>
+                                    </li>
+                                @endcan
                                 @can('invoices-list')
                                     @php $active_item = active_sidebar(['invoices','invoices/create','invoices/{invoice}/edit','search/invoices','invoice-action/{invoice}','orders-status/{invoice}']); @endphp
                                     <li class="{{ $active_item ? 'menuitem-active' : '' }}">

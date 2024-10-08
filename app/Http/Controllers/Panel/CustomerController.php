@@ -37,7 +37,7 @@ class CustomerController extends Controller
             'user_id' => auth()->id(),
             'name' => $request->name,
             'code' => $request->customer_code,
-            'type' => $request->type,
+//            'type' => $request->type,
             'customer_type' => $request->customer_type,
             'economical_number' => $request->economical_number,
             'national_number' => $request->national_number,
@@ -83,7 +83,7 @@ class CustomerController extends Controller
         $customer->update([
             'name' => $request->name,
             'code' => Gate::allows('sales-manager') ? $request->customer_code : $customer->code,
-            'type' => $request->type,
+//            'type' => $request->type,
             'customer_type' => $request->customer_type,
             'economical_number' => $request->economical_number,
             'national_number' => $request->national_number,

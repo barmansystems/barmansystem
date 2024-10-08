@@ -2,13 +2,26 @@
 @section('title', 'نامه نگاری')
 @section('styles')
     <style>
-        #exportPdf {
-            transition: background-color 0.3s ease, color 0.3s ease, opacity 0.3s ease;
+        @font-face {
+            font-family: dana;
+            font-style: normal;
+            font-weight: 400;
+            font-display: auto;
+            src: url({{asset('assets/fonts/farsi-fonts/sahel-300.eot')}}) format("embedded-opentype"),
+            url({{asset('assets/fonts/farsi-fonts/sahel-300.woff2')}}) format("woff2"),
+            url({{asset('assets/fonts/farsi-fonts/sahel-300.woff')}}) format("woff"),
+            url({{asset('assets/fonts/farsi-fonts/sahel-300.ttf')}}) format("truetype")
         }
+        body {
+            font-family: dana,Sans-Serif;
+        }
+
+
     </style>
     <link rel="stylesheet" href="{{asset('/vendors/clockpicker/bootstrap-clockpicker.min.css')}}" type="text/css">
     <link rel="stylesheet" href="{{asset('/vendors/datepicker/daterangepicker.css')}}">
-    <link rel="stylesheet" href="{{asset('/vendors/datepicker-jalali/bootstrap-datepicker.min.css')}}">
+    <link rel="stylesheet" href="{{asset('/vendors/datepicker-jalali/bootstrap-datepicker.min.css')}}" type="text/css">
+    <link rel="stylesheet" href="{{asset('/assets/css/summernote.rtl.css')}}" type="text/css">
 
 @endsection
 @section('content')
@@ -50,14 +63,14 @@
                                         <div class="invalid-feedback text-danger d-block">{{ $message }}</div>
                                         @enderror
                                     </div>
-{{--                                    <div class="mb-2 col-xl-3 col-lg-3 col-md-3">--}}
-{{--                                        <label for="number" class="form-label">شماره نامه</label>--}}
-{{--                                        <input type="text" class="form-control" name="number" id="number"--}}
-{{--                                               value="{{ old('number') }}">--}}
-{{--                                        @error('number')--}}
-{{--                                        <div class="invalid-feedback text-danger d-block">{{ $message }}</div>--}}
-{{--                                        @enderror--}}
-{{--                                    </div>--}}
+                                    {{--                                    <div class="mb-2 col-xl-3 col-lg-3 col-md-3">--}}
+                                    {{--                                        <label for="number" class="form-label">شماره نامه</label>--}}
+                                    {{--                                        <input type="text" class="form-control" name="number" id="number"--}}
+                                    {{--                                               value="{{ old('number') }}">--}}
+                                    {{--                                        @error('number')--}}
+                                    {{--                                        <div class="invalid-feedback text-danger d-block">{{ $message }}</div>--}}
+                                    {{--                                        @enderror--}}
+                                    {{--                                    </div>--}}
                                     <div class="mb-2 col-xl-3 col-lg-3 col-md-3">
                                         <label for="attachment" class="form-label">پیوست</label>
                                         <input type="text" class="form-control" name="attachment" id="attachment"
@@ -70,22 +83,23 @@
                                     <div class="mb-2 col-xl-3 col-lg-3 col-md-3">
                                         <label for="attachment" class="form-label">سربرگ</label>
                                         <select name="header" class="form-control" id="header">
-                                            <option value="info">سربرگ فارسی بارمان سیستم (Info)</option>
-                                            <option value="sale">سربرگ فارسی بارمان سیستم (Sale)</option>
-                                            <option value="english">سربرگ انگلیسی بارمان سیستم</option>
+                                            <option value="info">سربرگ فارسی پرسو تجارت (Info)</option>
+                                            <option value="sale">سربرگ فارسی پرسو تجارت (Sale)</option>
+                                            <option value="english">سربرگ انگلیسی پرسو تجارت</option>
                                         </select>
                                         @error('header')
                                         <div class="invalid-feedback text-danger d-block">{{ $message }}</div>
                                         @enderror
                                     </div>
+
                                     <div class="mb-2 col-xl-3 col-lg-3 col-md-3">
                                         <label for="attachment" class="form-label">ارسال به</label>
-                                        <select name="receiver[]" class="form-control" id="receiver" data-toggle="select2" multiple>
+                                        <select name="receiver[]" class="form-control" id="receiver"
+                                                data-toggle="select2" multiple>
                                             @foreach($users as $user)
                                                 <option value="{{$user->id}}">{{$user->name.' '.$user->family}}</option>
                                             @endforeach
                                         </select>
-
                                     </div>
                                     <div class="mb-2 col-xl-3 col-lg-3 col-md-3">
                                         <label for="attachment" class="form-label">خطاب به</label>
@@ -95,12 +109,13 @@
                                         <div class="invalid-feedback text-danger d-block">{{ $message }}</div>
                                         @enderror
                                     </div>
+
                                 </div>
                                 <div class="row">
                                     <div class="mb-2 col-xl-12 col-lg-12 col-md-12">
                                         <label for="code" class="form-label">متن نامه<span
                                                 class="text-danger">*</span></label>
-                                        <textarea type="text" class="form-control" name="text"
+                                        <textarea type="text" class="summernote-basic" name="text"
                                                   id="text">{{ old('text') }}</textarea>
                                         @error('text')
                                         <div class="invalid-feedback text-danger d-block">{{ $message }}</div>
@@ -109,6 +124,16 @@
                                     </div>
                                 </div>
                                 <button type="submit" class="btn btn-success mt-3">ثبت نامه</button>
+                                <button type="button" id="preview-button" class="btn btn-primary mt-3">پیش نمایش</button>
+
+
+                            </form>
+                            <form action="{{route('indicator.preview')}}" id="preview-form" method="POST" target="_blank">
+                                @csrf
+                                <input type="hidden" name="date" id="date-preview">
+                                <input type="hidden" name="attachment" id="attachment-preview">
+                                <input type="hidden" name="text" id="text-preview">
+                                <input type="hidden" name="header" id="header-preview">
                             </form>
                         </div>
                     </div>
@@ -116,6 +141,7 @@
             </div>
         </div>
     </div>
+
 @endsection
 @section('scripts')
     <script src="{{asset('/vendors/datepicker-jalali/bootstrap-datepicker.min.js')}}"></script>
@@ -124,77 +150,28 @@
     <script src="{{asset('/assets/js/examples/datepicker.js')}}"></script>
     <script src="{{asset('/vendors/clockpicker/bootstrap-clockpicker.min.js')}}"></script>
     <script src="{{asset('/assets/js/examples/clockpicker.js')}}"></script>
-    <script src="{{asset('/assets/js/ckeditor/ckeditor.js')}}"></script>
-    <script src="{{asset('/assets/js/ckeditor/adapters/jquery.js')}}"></script>
+    <script src="{{asset('/assets/js/summernote.js')}}"></script>
+    <script src="{{asset('/assets/js/editor.js')}}"></script>
+
     <script>
         $(document).ready(function () {
-
-
             $.ajaxSetup({
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 }
             });
-            $('#text').ckeditor({
-                language: "fa",
-                font_names:
-                    'Vazir/Vazir;' +
-                    'Nazanin/Nazanin'
-                ,
-                contentsCss: [
-                    CKEDITOR.basePath + 'contents.css',
-                    `{{asset("/assets/ckeditor-fonts/font.css")}}`,
-                ],
-                extraPlugins: 'lineheight',
-                toolbar: [
-                    {
-                        name: 'clipboard',
-                        items: ['Cut', 'Copy', 'Paste', 'PasteText', 'PasteFromWord', '-', 'Undo', 'Redo']
-                    },
-                    {name: 'editing', items: ['Find', 'Replace', '-', 'SelectAll', '-', 'Scayt']},
-                    '/',
-                    {
-                        name: 'basicstyles',
-                        items: ['Bold', 'Italic', 'Underline', 'Strike', 'Subscript', 'Superscript', '-', 'RemoveFormat']
-                    },
-                    {
-                        name: 'paragraph',
-                        items: ['NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'Blockquote', 'CreateDiv', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock', '-', 'BidiLtr', 'BidiRtl', 'Language', '-', 'LineHeight']
-                    },
-                    {name: 'links', items: ['Link', 'Unlink', 'Anchor']},
-                    {name: 'insert', items: ['Table', 'HorizontalRule', 'Smiley', 'SpecialChar', 'PageBreak']},
-                    '/',
-                    {name: 'styles', items: ['Styles', 'Format', 'Font', 'FontSize']},
-                    {name: 'colors', items: ['TextColor']},
-                    {name: 'tools', items: ['Maximize', 'ShowBlocks']}
-                ],
+            $('#preview-button').click(function() {
+
+                 $('#date-preview').val($('#date').val());
+                 $('#attachment-preview').val($('#attachment').val());
+                 $('#text-preview').val($('#text').val());
+                 $('#header-preview').val($('#header').val());
+
+                $('#preview-form').submit();
             });
 
 
-
-
-
-
-            $(document).on('change', '.cke_combo__font', function () {
-                $innerHtml = $("#cke_16_text").text();
-            });
-
-            function toggleExportButton() {
-                const text = CKEDITOR.instances.text.getData().trim();
-                if (text !== '') {
-                    $('#exportPdf').prop('disabled', false);
-                } else {
-                    $('#exportPdf').prop('disabled', true);
-                }
-            }
-
-            CKEDITOR.instances.text.on('instanceReady', function () {
-                toggleExportButton();
-            });
-
-            CKEDITOR.instances.text.on('change', function () {
-                toggleExportButton();
-            });
         });
     </script>
+
 @endsection

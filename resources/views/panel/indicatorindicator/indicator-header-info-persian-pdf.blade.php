@@ -7,35 +7,34 @@
         .div-indicator {
             position: absolute;
             right: 1px;
-            top: 18rem;
+            top: 16rem;
             padding: 2.3rem !important;
             direction: rtl !important;
-            line-height: 3em;
 
         }
 
         .date {
             position: absolute;
-            top: 6rem;
-            left: 7rem;
-            font-size: 1.4rem;
+            top: 8.9rem;
+            left: 4rem;
+            font-size: 1.1rem;
 
         }
 
         .number {
             position: absolute;
-            top: 8.9rem;
-            left: 6rem;
-            font-size: 1.4rem;
+            top: 11.8rem;
+            left: 3rem;
+            font-size: 1.1rem;
             width: 8rem;
             text-align: center;
         }
 
         .attachment {
             position: absolute;
-            top: 11.5rem;
-            left: 6rem;
-            font-size: 1.4rem;
+            top: 14.5rem;
+            left: 3rem;
+            font-size: 1.1rem;
             width: 8rem;
             text-align: center;
         }

@@ -219,6 +219,7 @@ return [
         'price' => 'قیمت',
         'gender' => 'جنسیت',
         'g-recaptcha-response' => 'کپچا گوگل',
+        'customer_type' => 'نوع مشتری',
     ],
 
 ];
