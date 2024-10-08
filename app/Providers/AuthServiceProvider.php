@@ -6,6 +6,7 @@ use App\Models\BuyOrder;
 use App\Models\Indicator;
 use App\Models\Invoice;
 use App\Models\Note;
+use App\Models\Order;
 use App\Models\Packet;
 use App\Models\PaymentOrder;
 use App\Models\Permission;
@@ -100,6 +101,9 @@ class AuthServiceProvider extends ServiceProvider
 
         Gate::define('order-payment-delete', function ($user, PaymentOrder $payment) {
             return $user->id == $payment->user_id;
+        });
+        Gate::define('edit-order-customer', function ($user, Order $order) {
+            return $user->id == $order->user_id;
         });
     }
 }
