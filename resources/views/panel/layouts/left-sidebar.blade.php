@@ -125,6 +125,13 @@
                                             فایل</a>
                                     </li>
                                 @endcan
+                                @can('company-info')
+                                    @php $active_item = active_sidebar(['company-info','company-info/{company_info}/edit']); @endphp
+                                    <li class="{{ $active_item ? 'menuitem-active' : '' }}">
+                                        <a href="{{ route('company-info.index') }}" {{ $active_item ? 'active' : '' }}>
+                                            اطلاعات شرکت</a>
+                                    </li>
+                                @endcan
                             </ul>
                         </div>
                     </li>

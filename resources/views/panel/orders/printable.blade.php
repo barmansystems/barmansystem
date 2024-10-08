@@ -45,7 +45,7 @@
                         </div>
                         <div class="invoice-top">
                             <div class="row">
-                                <div class="col-sm-6">
+                                <div class="col-12">
                                     <div class="invoice-number mb-30">
                                         <h4 class="inv-title-1 mb-3">مشخصات مشتری</h4>
                                         <h2 class="name mb-10">نام شخص حقیقی/حقوقی : {{$order->customer->name}}</h2>
