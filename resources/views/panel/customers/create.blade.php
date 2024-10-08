@@ -60,19 +60,9 @@
                                         <div class="invalid-feedback text-danger d-block">{{ $message }}</div>
                                         @enderror
                                     </div>
+
                                     <div class="col-xl-3 col-lg-3 col-md-3 mb-3">
-                                        <label class="form-label" for="type">نوع <span class="text-danger">*</span></label>
-                                        <select class="form-control" name="type" id="type" data-toggle="select2">
-                                            @foreach(\App\Models\Customer::TYPE as $key => $value)
-                                                <option value="{{ $key }}" {{ old('type') == $key ? 'selected' : '' }}>{{ $value }}</option>
-                                            @endforeach
-                                        </select>
-                                        @error('type')
-                                        <div class="invalid-feedback text-danger d-block">{{ $message }}</div>
-                                        @enderror
-                                    </div>
-                                    <div class="col-xl-3 col-lg-3 col-md-3 mb-3">
-                                        <label class="form-label" for="customer_type">مشتری <span class="text-danger">*</span></label>
+                                        <label class="form-label" for="customer_type">نوع مشتری<span class="text-danger">*</span></label>
                                         <select class="form-control" name="customer_type" id="customer_type" data-toggle="select2">
                                             @foreach(\App\Models\Customer::CUSTOMER_TYPE as $key => $value)
                                                 <option value="{{ $key }}" {{ old('customer_type') == $key ? 'selected' : '' }}>{{ $value }}</option>

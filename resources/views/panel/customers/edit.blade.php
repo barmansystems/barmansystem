@@ -51,18 +51,7 @@
                                         @enderror
                                     </div>
                                     <div class="col-xl-3 col-lg-3 col-md-3 mb-3">
-                                        <label class="form-label" for="type">نوع <span class="text-danger">*</span></label>
-                                        <select class="form-control" name="type" id="type" data-toggle="select2">
-                                            @foreach(\App\Models\Customer::TYPE as $key => $value)
-                                                <option value="{{ $key }}" {{ $customer->type == $key ? 'selected' : '' }}>{{ $value }}</option>
-                                            @endforeach
-                                        </select>
-                                        @error('type')
-                                        <div class="invalid-feedback text-danger d-block">{{ $message }}</div>
-                                        @enderror
-                                    </div>
-                                    <div class="col-xl-3 col-lg-3 col-md-3 mb-3">
-                                        <label class="form-label" for="customer_type">مشتری <span class="text-danger">*</span></label>
+                                        <label class="form-label" for="customer_type">نوع مشتری<span class="text-danger">*</span></label>
                                         <select class="form-control" name="customer_type" id="customer_type" data-toggle="select2">
                                             @foreach(\App\Models\Customer::CUSTOMER_TYPE as $key => $value)
                                                 <option value="{{ $key }}" {{ $customer->customer_type == $key ? 'selected' : '' }}>{{ $value }}</option>
@@ -93,7 +82,7 @@
                                         <input type="text" name="postal_code" class="form-control" id="postal_code"
                                                value="{{ $customer->postal_code }}">
                                         @error('postal_code')
-                                            <div class="invalid-feedback text-danger d-block">{{ $message }}</div>
+                                        <div class="invalid-feedback text-danger d-block">{{ $message }}</div>
                                         @enderror
                                     </div>
                                     <div class="col-xl-3 col-lg-3 col-md-3 mb-3">
@@ -104,14 +93,14 @@
                                             @endforeach
                                         </select>
                                         @error('province')
-                                            <div class="invalid-feedback text-danger d-block">{{ $message }}</div>
+                                        <div class="invalid-feedback text-danger d-block">{{ $message }}</div>
                                         @enderror
                                     </div>
                                     <div class="col-xl-3 col-lg-3 col-md-3 mb-3">
                                         <label class="form-label" for="city">شهر<span class="text-danger">*</span></label>
                                         <input type="text" name="city" class="form-control" id="city" value="{{ $customer->city }}">
                                         @error('city')
-                                            <div class="invalid-feedback text-danger d-block">{{ $message }}</div>
+                                        <div class="invalid-feedback text-danger d-block">{{ $message }}</div>
                                         @enderror
                                     </div>
                                     <div class="col-xl-3 col-lg-3 col-md-3 mb-3">
@@ -129,7 +118,7 @@
                                             </a>
                                         </div>
                                         @error('phone1')
-                                            <div class="invalid-feedback text-danger d-block">{{ $message }}</div>
+                                        <div class="invalid-feedback text-danger d-block">{{ $message }}</div>
                                         @enderror
                                     </div>
                                     <div class="col-xl-3 col-lg-3 col-md-3 mb-3">
