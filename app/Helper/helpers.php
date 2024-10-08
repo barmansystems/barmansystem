@@ -232,3 +232,51 @@ function getCompany($data)
     }
     return $company;
 }
+
+
+function dataInfoName($data)
+{
+    $name = '';
+    switch ($data) {
+        case "name":
+            $name = 'نام شخص حقوقی';
+            break;
+        case "economic_number":
+            $name = 'شماره اقتصادی';
+            break;
+        case "national_number":
+            $name = 'شماره ثبت / شماره ملی';
+            break;
+        case "national_id":
+            $name = 'شناسه ملی';
+            break;
+        case "address":
+            $name = 'نشانی';
+            break;
+        case "zip_code":
+            $name = 'کد پستی';
+            break;
+        case "phone_number":
+            $name = 'شماره تلفن';
+            break;
+        case "fax_number":
+            $name = 'شماره فکس';
+            break;
+        case "mobile_number":
+            $name = 'شماره موبایل';
+            break;
+        case "bank_account_number":
+            $name = 'شماره حساب';
+            break;
+        case "shaba_number":
+            $name = 'شماره شبا';
+            break;
+        case "account_user_name":
+            $name = 'نام کاربری حساب';
+            break;
+        case "account_user_password":
+            $name = 'رمز عبور حساب';
+            break;
+    }
+    return $name;
+}
