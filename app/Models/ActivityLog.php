@@ -161,6 +161,10 @@ class ActivityLog extends Model
         'setad-fee-delete' => 'حذف کارمزد ستاد',
         'setad-fee-upload' => 'آپلود رسید کارمزد ستاد',
         'setad-fee-delete-receipt' => 'حذف رسید کارمزد ستاد',
+        //copy
+        'copy-information' => 'کپی اطلاعات',
+        'print-information' => 'پرینت اطلاعات',
+        'edit-company-information' => 'ویرایش اطلاعات شرکت',
     ];
 
     public function user()
