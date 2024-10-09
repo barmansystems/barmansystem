@@ -77,7 +77,7 @@ class TicketController extends Controller
 
 //        $ticket->;
 //        return $ticket['id'];
-        return redirect()->to(url('/tickets/'.$ticket['id'].'/edit'));
+        return redirect()->route('tickets.edit', $ticket['id']);
     }
 
     public function show(Ticket $ticket)
