@@ -185,6 +185,7 @@ class TicketController extends Controller
             }
 
             $response = $httpRequest->post(env('API_BASE_URL') . 'create-ticket', $data);
+            dd($response);
 
             if ($response->successful()) {
                 return $response->json();
