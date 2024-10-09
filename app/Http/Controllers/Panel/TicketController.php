@@ -77,6 +77,7 @@ class TicketController extends Controller
 
 //        $ticket->;
 //        return $ticket['id'];
+        dd($ticket);
         return redirect()->route('tickets.edit', $ticket['id']);
     }
 
