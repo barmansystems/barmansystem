@@ -44,12 +44,12 @@
                                     </button>
 
                                     @can('invoices-create')
-                                        @cannot('accountant')
+{{--                                        @cannot('accountant')--}}
                                             <a href="{{ route('invoices.create') }}" class="btn btn-primary">
                                                 <i class="fa fa-plus mr-2"></i>
                                                 ایجاد سفارش
                                             </a>
-                                        @endcannot
+{{--                                        @endcannot--}}
                                     @endcan
                                 </div>
                             </div>
@@ -194,7 +194,7 @@
                                                     </td>
                                                 @endcanany
                                             @endcan
-                                            @cannot('accountant')
+{{--                                            @cannot('accountant')--}}
                                                 @can('sales-manager')
                                                     @can('invoices-edit')
                                                         <td>
@@ -232,7 +232,7 @@
                                                         </td>
                                                     @endcan
                                                 @endcan
-                                            @endcannot
+{{--                                            @endcannot--}}
                                         </tr>
                                     @endforeach
                                     </tbody>
