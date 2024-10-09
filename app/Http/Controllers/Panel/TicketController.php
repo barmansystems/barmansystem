@@ -77,7 +77,6 @@ class TicketController extends Controller
 
 //        $ticket->;
 //        return $ticket['id'];
-        dd($ticket);
         return redirect()->route('tickets.edit', $ticket['id']);
     }
 
@@ -185,7 +184,6 @@ class TicketController extends Controller
             }
 
             $response = $httpRequest->post(env('API_BASE_URL') . 'create-ticket', $data);
-            dd($response->body());
 
             if ($response->successful()) {
                 return $response->json();
