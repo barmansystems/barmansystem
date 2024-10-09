@@ -28,7 +28,7 @@ class NoteController extends Controller
 
         $data = [
             'user_id' => auth()->id(),
-            'title' => $request->title,
+            'title' => $request->title??'بدون عنوان',
             'text' => $request->text,
         ];
         if (!$request->note_id) {
