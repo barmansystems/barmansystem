@@ -88,7 +88,17 @@ class UserController extends Controller
 
     public function update(UpdateUserRequest $request, User $user)
     {
-        $this->authorize('users-edit');
+        // ابتدا بررسی می‌کنیم آیا کاربر دسترسی 'users-edit' دارد یا خیر
+        if (!auth()->user()->can('users-edit')) {
+            // اگر کاربر دسترسی users-edit ندارد، اما پروفایل خودش است
+            if ($user->id != auth()->id()) {
+                // اگر پروفایل کاربر لاگین‌شده نیست
+                alert()->error('شما مجاز به ویرایش این پروفایل نیستید.', 'عدم دسترسی');
+                return redirect()->back();
+            }
+        }
+
+        // در صورتی که کاربر مجاز به ویرایش پروفایل باشد
         $this->authorize('edit-profile', $user->id);
 
         if (!auth()->user()->isSuperuser() && ($user->role->name == 'admin' && $user->id != auth()->id())) {
@@ -136,7 +146,6 @@ class UserController extends Controller
         ];
         $test = $this->editUserToMoshrefiApp($userData);
 
-
         if (Gate::allows('edit-profile', $user->id)) {
             alert()->success('پروفایل شما با موفقیت ویرایش شد', 'ویرایش پروفایل');
             return redirect()->back();
@@ -145,6 +154,7 @@ class UserController extends Controller
             return redirect()->route('users.index');
         }
     }
+
 
     public function destroy(User $user)
     {
