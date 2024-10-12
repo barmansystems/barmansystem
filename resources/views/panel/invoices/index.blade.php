@@ -160,13 +160,12 @@
                                             <td>{{ verta($invoice->created_at)->format('H:i - Y/m/d') }}</td>
                                             {{--                            @canany(['accountant','admin','ceo'])--}}
                                             <td>
-                                                <a class="btn btn-info btn-floating"
-                                                   href="{{ route('invoices.show', $invoice->id) }}">
+                                                <a class="btn btn-info btn-floating" href="{{ route('invoices.show', $invoice->id) }}">
                                                     <i class="fa fa-eye"></i>
                                                 </a>
                                             </td>
 
-                                            {{--                            @endcanany--}}
+                                            {{--                            @endcanany --}}
                                             <td>
                                                 {{-- invoices before 2024-02-03 order-status disabled --}}
                                                 <a href="{{ route('orders-status.index', $invoice->id) }}"
