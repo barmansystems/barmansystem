@@ -239,7 +239,6 @@
                 setInterval(function() {
 
                     if (window.outerWidth - window.innerWidth > threshold || window.outerHeight - window.innerHeight > threshold) {
-                        alert("ابزارهای توسعه باز هستند. لطفاً آن‌ها را ببندید.");
                         window.location.href = 'about:blank';
                     }
                 }, 500);
