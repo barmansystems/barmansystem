@@ -49,6 +49,7 @@
                                     <div class="invoice-number mb-30">
                                         <h4 class="inv-title-1 mb-3">مشخصات مشتری</h4>
                                         <h2 class="name mb-10">نام شخص حقیقی/حقوقی : {{$order->customer->name}}</h2>
+                                        <h3 class="name mb-10">نوع فروش : {{\App\Models\Customer::CUSTOMER_TYPE[$order->customer->customer_type]}}</h3>
                                         <p class="invo-addr-1">
 
                                             شماره ثبت/ملی : {{$order->customer->national_number}} <br/>

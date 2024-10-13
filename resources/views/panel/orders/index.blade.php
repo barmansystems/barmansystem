@@ -281,6 +281,7 @@
                                     <tr>
                                         <th>#</th>
                                         <th>شناسه سفارش</th>
+                                        <th>نوع مشتری</th>
                                         <th>خریدار</th>
                                         <th>درخواست جهت</th>
                                         <th>استان</th>
@@ -326,6 +327,7 @@
                                             @endphp
                                             <td>{!! $highlightedNumber !!}</td>
                                             <td>{{ $order->customer->name }}</td>
+                                            <td>{{\App\Models\Customer::CUSTOMER_TYPE[$order->customer->customer_type]}}</td>
                                             <td>{{ \App\Models\Invoice::REQ_FOR[$order->req_for] }}</td>
                                             <td>{{ $order->customer->province }}</td>
                                             <td>{{ $order->customer->city }}</td>
