@@ -12,7 +12,7 @@
     </style>
 @endsection
 @section('content')
-{{--    @dd(json_decode($order->products))--}}
+    {{--    @dd(json_decode($order->products))--}}
     <div class="content">
         <div class="container-fluid">
             <!-- start page title -->
@@ -429,33 +429,40 @@
                 $('#btn_form').attr('disabled', 'disabled').text('درحال محاسبه...');
                 CalcProductInvoice(this)
             })
-            $(document).on('keyup', '#other_products_table input[name="other_counts[]"]', function (e) {
-                if (e.originalEvent && e.originalEvent.explicitOriginalTarget) {
-                    if (e.originalEvent.explicitOriginalTarget.defaultValue != this.value) {
-                        $('#btn_form').attr('disabled', 'disabled').text('درحال محاسبه...');
-                    }
-                } else {
-
-                    if (this.defaultValue != this.value) {
-                        $('#btn_form').attr('disabled', 'disabled').text('درحال محاسبه...');
-                    }
-                }
-
-            });
-
-            $(document).on('input', '#other_products_table input[name="other_counts[]"]', function () {
-                $('#btn_form').attr('disabled', 'disabled').text('درحال محاسبه...');
-                CalcOtherProductInvoice(this)
-            })
-            $(document).on('input', '#other_products_table input[name="other_prices[]"]', function (e) {
+            // $(document).on('keyup', '#other_products_table input[name="other_counts[]"]', function (e) {
+            //     if (e.originalEvent && e.originalEvent.explicitOriginalTarget) {
+            //         if (e.originalEvent.explicitOriginalTarget.defaultValue != this.value) {
+            //             $('#btn_form').attr('disabled', 'disabled').text('درحال محاسبه...');
+            //         }
+            //     } else {
+            //
+            //         if (this.defaultValue != this.value) {
+            //             $('#btn_form').attr('disabled', 'disabled').text('درحال محاسبه...');
+            //         }
+            //     }
+            //
+            // });
+            //
+            // $(document).on('change', '#other_products_table input[name="other_counts[]"]', function () {
+            //     $('#btn_form').attr('disabled', 'disabled').text('درحال محاسبه...');
+            //     CalcOtherProductInvoice(this)
+            // })
+            // $(document).on('keyup', '#other_products_table input[name="other_prices[]"]', function (e) {
+            //     if (this.defaultValue != this.value) {
+            //         $('#btn_form').attr('disabled', 'disabled').text('درحال محاسبه...');
+            //     }
+            // });
+            //
+            // $(document).on('change', '#other_products_table input[name="other_prices[]"]', function () {
+            //     CalcOtherProductInvoice(this)
+            // })
+            $(document).on('input', '#other_products_table input[name="other_counts[]"], #other_products_table input[name="other_prices[]"]', function () {
+                // بررسی تغییر مقدار
                 if (this.defaultValue != this.value) {
                     $('#btn_form').attr('disabled', 'disabled').text('درحال محاسبه...');
+                    CalcOtherProductInvoice(this);
                 }
             });
-
-            $(document).on('input', '#other_products_table input[name="other_prices[]"]', function () {
-                CalcOtherProductInvoice(this)
-            })
 
             // end calc the product invoice
 
@@ -507,28 +514,18 @@
             var index = $(changeable).parent().parent().index()
             let count = $('#other_products_table input[name="other_counts[]"]')[index].value;
             let price = $('#other_products_table input[name="other_prices[]"]')[index].value;
+            var total = 0;
 
             // thousands grouping
             $($('#other_products_table input[name="other_prices[]"]')[index]).siblings()[0].innerText = price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
             // $($('#other_products_table input[name="other_discount_amounts[]"]')[index]).siblings()[0].innerText = discount_amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 
-            $.ajax({
-                url: "{{ route('calcOtherProductsInvoice') }}",
-                type: 'post',
-                data: {
-                    'price': price,
-                    'count': count,
-                },
-                success: function (res) {
-                    $('#other_products_table input[name="other_prices[]"]')[index].value = res.data.price;
-                    $('#other_products_table input[name="other_total_prices[]"]')[index].value = res.data.total_price;
+            total = price *count;
+            $('#other_products_table input[name="other_prices[]"]')[index].value = price;
+            $('#other_products_table input[name="other_total_prices[]"]')[index].value = total;
 
-                    $('#btn_form').removeAttr('disabled').text('ثبت فرم');
-                },
-                error: function (request, status, error) {
-                    //
-                }
-            })
+            $('#btn_form').removeAttr('disabled').text('ثبت فرم');
+
         }
     </script>
 @endsection
