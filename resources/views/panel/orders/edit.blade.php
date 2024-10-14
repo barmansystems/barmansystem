@@ -79,15 +79,17 @@
                                         @enderror
                                     </div>
                                     <div class="row mb-4">
-                                        <div class="col-xl-3 col-lg-3 col-md-3 mb-3">
+                                        <div class="col-xl-6 col-lg-6 col-md-6 mb-3">
                                             <label class="form-label" for="description">توضیحات بیشتر</label>
                                             <textarea name="description" id="description"
-                                                      class="form-control">{{ old('description',$order->description) }}</textarea>
+                                                      class="description form-control" rows="10">{{ old('description',$order->description) }}</textarea>
                                             @error('description')
                                             <div class="invalid-feedback text-danger d-block">{{ $message }}</div>
                                             @enderror
                                         </div>
                                     </div>
+
+
                                     @can('accountant')
                                         <div class="col-xl-3 col-lg-3 col-md-3 mb-3">
                                             <label for="status">وضعیت <span class="text-danger">*</span></label>
@@ -111,6 +113,11 @@
                                     <div class="col-12 mb-4 mt-2 text-center">
                                         <hr>
                                         <h4>مشخصات کالا یا خدمات مورد معامله</h4>
+                                    </div>
+                                    <div class="alert alert-info">
+                                        <i class="fa fa-info-circle font-size-20 align-middle"></i>
+                                        <strong>توجه!</strong>
+                                        همکار فروش گرامی قیمت کالا باید به صورت <u>قیمت تمام شده</u>(به همراه مالیات ، ارزش افزوده و...) قرار بگیرد.
                                     </div>
                                     <div class="col-12 mt-2 text-center">
                                         <h5>محصولات شرکت</h5>

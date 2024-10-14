@@ -196,9 +196,17 @@
                                 <div class="alert alert-info">
                                     <i class="fa fa-info-circle font-size-20 align-middle"></i>
                                     <strong>توجه!</strong>
-                                    درصورت نیاز به تایید پیش فاکتور توسط شما، دکمه اقدام فعال خواهد شد
+                                    همکار فروش گرامی درصورت نیاز به <u>تایید پیش فاکتور</u> توسط شما، <u>دکمه اقدام</u>
+                                    فعال خواهد شد
                                 </div>
                             @endcannot
+                            @can('accountant')
+                                <div class="alert alert-info">
+                                    <i class="fa fa-info-circle font-size-20 align-middle"></i>
+                                    <strong>توجه!</strong>
+                                    حسابدار گرامی قیمت کالا ها ، به صورت قیمت تمام شده (به همراه مالیات ، ارزش افزوده و ...) محاسبه شده است . در صورت نیاز به اطلاعات بیشتر با واحد فروش ارتباط برقرار کنید.
+                                </div>
+                            @endcan
                             <div class="card-title d-flex justify-content-end">
                                 <div>
                                     <form action="{{ route('orders.excel') }}" method="post" id="excel_form">
@@ -245,13 +253,20 @@
                                 <div class="col-xl-2 col-lg-2 col-md-3 col-sm-12">
                                     <select name="status" form="search_form" class="form-control" data-toggle="select2">
                                         <option value="all">وضعیت (همه)</option>
-{{--                                        @foreach(\App\Models\Invoice::STATUS as $key => $value)--}}
-{{--                                            <option--}}
-{{--                                                value="{{ $key }}" {{ request()->status == $key ? 'selected' : '' }}>{{ $value }}</option>--}}
-                                            <option value="orders" {{ request()->status == 'order' ? 'selected' : '' }}>ثبت سفارش</option>
-                                            <option value="pending" {{ request()->status == 'pending' ? 'selected' : '' }}>پیش فاکتور شده</option>
-                                            <option value="invoiced" {{ request()->status == 'invoiced' ? 'selected' : '' }}>فاکتور شده</option>
-{{--                                        @endforeach--}}
+                                        {{--                                        @foreach(\App\Models\Invoice::STATUS as $key => $value)--}}
+                                        {{--                                            <option--}}
+                                        {{--                                                value="{{ $key }}" {{ request()->status == $key ? 'selected' : '' }}>{{ $value }}</option>--}}
+                                        <option value="orders" {{ request()->status == 'order' ? 'selected' : '' }}>ثبت
+                                            سفارش
+                                        </option>
+                                        <option value="pending" {{ request()->status == 'pending' ? 'selected' : '' }}>
+                                            پیش فاکتور شده
+                                        </option>
+                                        <option
+                                            value="invoiced" {{ request()->status == 'invoiced' ? 'selected' : '' }}>
+                                            فاکتور شده
+                                        </option>
+                                        {{--                                        @endforeach--}}
                                     </select>
                                 </div>
                                 {{--                                @can('accountant')--}}
@@ -281,7 +296,7 @@
                                     <tr>
                                         <th>#</th>
                                         <th>شناسه سفارش</th>
-                                        <th>نوع مشتری</th>
+                                        <th>نوع فروش</th>
                                         <th>خریدار</th>
                                         <th>درخواست جهت</th>
                                         <th>استان</th>
@@ -326,7 +341,7 @@
                                                 }
                                             @endphp
                                             <td>{!! $highlightedNumber !!}</td>
-                                            <td>{{\App\Models\Customer::CUSTOMER_TYPE[$order->customer->customer_type]}}</td>
+                                            <td>{{ \App\Models\Customer::CUSTOMER_TYPE[$order->customer->customer_type] }}</td>
                                             <td>{{ $order->customer->name }}</td>
                                             <td>{{ \App\Models\Invoice::REQ_FOR[$order->req_for] }}</td>
                                             <td>{{ $order->customer->province }}</td>
@@ -531,5 +546,3 @@
         });
     </script>
 @endsection
-
-

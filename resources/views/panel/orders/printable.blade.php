@@ -27,7 +27,7 @@
                                     <div class="invoice-logo">
                                         <!-- logo started -->
                                         <div class="logo">
-                                            <img src="/assets/images/img/logo-barman-red.png"
+                                            <img src="/assets/images/header-logo.png"
                                                  alt="logo">
                                         </div>
                                         <!-- logo ended -->
@@ -45,13 +45,12 @@
                         </div>
                         <div class="invoice-top">
                             <div class="row">
-                                <div class="col-12">
+                                <div class="col-sm-12">
                                     <div class="invoice-number mb-30">
                                         <h4 class="inv-title-1 mb-3">مشخصات مشتری</h4>
                                         <h2 class="name mb-10">نام شخص حقیقی/حقوقی : {{$order->customer->name}}</h2>
                                         <h3 class="name mb-10">نوع فروش : {{\App\Models\Customer::CUSTOMER_TYPE[$order->customer->customer_type]}}</h3>
                                         <p class="invo-addr-1">
-
                                             شماره ثبت/ملی : {{$order->customer->national_number}} <br/>
                                             کد پستی : {{$order->customer->postal_code}} <br/>
                                             شماره تماس : {{$order->customer->phone1}} <br/>
@@ -161,7 +160,8 @@
                                     @if(!is_null($order->description))
                                         <div class="mb-30 dear-client">
                                             <h3 class="inv-title-1">توضیحات</h3>
-                                            <p>{{$order->description}}</p>
+                                            <p>{!! nl2br(e($order->description)) !!}</p>
+
                                         </div>
                                     @endif
                                 </div>

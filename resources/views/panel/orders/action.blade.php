@@ -141,10 +141,17 @@
                                             <label class="btn {{ $order->action ? 'disabled' : '' }} {{ $isFactor ? 'btn-primary' : 'btn-outline-primary' }} justify-content-center" for="status2">فاکتور</label>
                                         </div>
                                     </div>
-                                    <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 mt-5 invoice_sec {{ old('status') == 'factor' ? 'd-none' : '' }}">
+                                    <div class="col-xl-8 col-lg-8 col-md-8 col-sm-12 mt-5 invoice_sec {{ old('status') == 'factor' ? 'd-none' : '' }}">
                                         @if($order->action)
                                             @if($order->action->status != 'factor')
                                                 <div class="row">
+                                                    @cannot('accountant')
+                                                        <div class="alert alert-info">
+                                                            <i class="fa fa-info-circle font-size-20 align-middle"></i>
+                                                            <strong>توجه!</strong>
+                                                            همکار فروش گرامی ابتدا فایل پیش فاکتور / فاکتور را بررسی کرده ، سپس به تایید آن اقدام کنید. در صورت عدم تایید با واحد حسابداری ارتباط برقرار کنید.
+                                                        </div>
+                                                    @endcannot
                                                     <div class="col">
                                                         <a href="{{ $order->action->invoice_file }}" class="btn btn-primary"
                                                            download="{{ $order->action->invoice_file }}">
@@ -305,6 +312,3 @@
         })
     </script>
 @endsection
-
-
-
