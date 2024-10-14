@@ -534,5 +534,14 @@
             $('#btn_form').removeAttr('disabled').text('ثبت فرم');
 
         }
+        $('.description').keydown(function(e) {
+            if (e.key === 'Enter' && e.shiftKey) {
+                e.preventDefault();
+                const cursorPos = this.selectionStart;
+                const value = $(this).val();
+                $(this).val(value.substring(0, cursorPos) + "\n" + value.substring(cursorPos));
+                this.selectionStart = this.selectionEnd = cursorPos + 1;
+            }
+        });
     </script>
 @endsection
