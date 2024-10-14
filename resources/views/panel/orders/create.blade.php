@@ -471,10 +471,10 @@
 
             $(document).on('input', '#other_products_table input[name="other_counts[]"], #other_products_table input[name="other_prices[]"]', function () {
                 // بررسی تغییر مقدار
-                if (this.defaultValue != this.value) {
+                // if (this.defaultValue != this.value) {
                     $('#btn_form').attr('disabled', 'disabled').text('درحال محاسبه...');
                     CalcOtherProductInvoice(this);
-                }
+                // }
             });
 
             // end calc the product invoice
