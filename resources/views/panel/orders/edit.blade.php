@@ -82,7 +82,8 @@
                                         <div class="col-xl-6 col-lg-6 col-md-6 mb-3">
                                             <label class="form-label" for="description">توضیحات بیشتر</label>
                                             <textarea name="description" id="description"
-                                                      class="description form-control" rows="10">{{ old('description',$order->description) }}</textarea>
+                                                      class="description form-control"
+                                                      rows="10">{{ old('description',$order->description) }}</textarea>
                                             @error('description')
                                             <div class="invalid-feedback text-danger d-block">{{ $message }}</div>
                                             @enderror
@@ -118,7 +119,8 @@
                                     <div class="alert alert-info">
                                         <i class="fa fa-info-circle font-size-20 align-middle"></i>
                                         <strong>توجه!</strong>
-                                        همکار فروش گرامی قیمت کالا باید به صورت <u>قیمت تمام شده</u>(به همراه مالیات ، ارزش افزوده و...) قرار بگیرد.
+                                        همکار فروش گرامی قیمت کالا باید به صورت <u>قیمت تمام شده</u>(به همراه مالیات ،
+                                        ارزش افزوده و...) قرار بگیرد.
                                     </div>
                                     <div class="col-12 mt-2 text-center">
                                         <h5>محصولات شرکت</h5>
@@ -138,8 +140,8 @@
                                                     <th>رنگ</th>
                                                     <th>تعداد</th>
                                                     <th>واحد اندازه گیری</th>
-                                                    <th>مبلغ واحد</th>
-                                                    <th>مبلغ کل</th>
+                                                    <th>مبلغ واحد (ریال)</th>
+                                                    <th>مبلغ کل (ریال)</th>
                                                     <th>حذف</th>
                                                 </tr>
                                                 </thead>
@@ -224,8 +226,8 @@
                                                     <th>رنگ</th>
                                                     <th>تعداد</th>
                                                     <th>واحد اندازه گیری</th>
-                                                    <th>مبلغ واحد</th>
-                                                    <th>مبلغ کل</th>
+                                                    <th>مبلغ واحد (ریال)</th>
+                                                    <th>مبلغ کل (ریال)</th>
                                                     <th>حذف</th>
                                                 </tr>
                                                 </thead>
@@ -264,14 +266,15 @@
                                                                 <input type="number" name="other_prices[]"
                                                                        class="form-control" min="0"
                                                                        value="{{ $product->other_prices }}" required>
-                                                                <span class="price_with_grouping text-primary"></span>
+                                                                <span class="price_with_grouping text-primary">{{ number_format($product->other_prices) }}</span>
                                                             </td>
                                                             <td>
                                                                 <input type="number" name="other_total_prices[]"
                                                                        class="form-control"
                                                                        min="0"
-                                                                       value="{{  $product->other_total_prices }}"
+                                                                       value="{{ $product->other_total_prices }}"
                                                                        readonly>
+                                                                <span class="price_with_grouping text-primary">{{ number_format($product->other_total_prices) }}</span>
                                                             </td>
 
                                                             <td>
@@ -406,6 +409,7 @@
                 </td>
                 <td>
                     <input type="number" name="other_total_prices[]" class="form-control" min="0" value="0" readonly>
+                    <span class="total_price_with_grouping text-primary"></span>
                 </td>
 
                 <td>
@@ -531,6 +535,7 @@
             total = price *count;
             $('#other_products_table input[name="other_prices[]"]')[index].value = price;
             $('#other_products_table input[name="other_total_prices[]"]')[index].value = total;
+            $($('#other_products_table input[name="other_total_prices[]"]')[index]).siblings()[0].innerText = total.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 
             $('#btn_form').removeAttr('disabled').text('ثبت فرم');
 
