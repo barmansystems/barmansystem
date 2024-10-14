@@ -476,7 +476,6 @@
                     CalcOtherProductInvoice(this);
                 // }
             });
-            console.log("testststs");
 
             // end calc the product invoice
 
