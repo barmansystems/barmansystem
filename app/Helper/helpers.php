@@ -75,7 +75,7 @@ if (!function_exists('upload_file_factor')) {
 
                 $outputPdfTempPath = storage_path('app/public/temp-processed-pdf.pdf');
 
-                $imagePath = public_path('assets/images/parso_mohr_emza.png');
+                $imagePath = public_path('assets/images/mohr-emza-barman.png');
 
 
                 $mpdf = new \Mpdf\Mpdf([
