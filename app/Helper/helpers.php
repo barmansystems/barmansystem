@@ -70,14 +70,17 @@ if (!function_exists('upload_file_factor')) {
         if ($file) {
             try {
                 $pdfFile = $file;
+                $paperFormat = getPaperSizeFromPdf($file);
                 $inputPdfPath = $pdfFile->getPathName();
 
                 $outputPdfTempPath = storage_path('app/public/temp-processed-pdf.pdf');
 
-                $imagePath = public_path('assets/images/mohr-emza-barman.png');
+                $imagePath = public_path('assets/images/parso_mohr_emza.png');
+
 
                 $mpdf = new \Mpdf\Mpdf([
-                    'tempDir' => storage_path('app/mpdf-temp')
+                    'tempDir' => storage_path('app/mpdf-temp'),
+                    'format' => $paperFormat,
                 ]);
 
                 $pageCount = $mpdf->SetSourceFile($inputPdfPath);
@@ -87,8 +90,14 @@ if (!function_exists('upload_file_factor')) {
                 $imgWidthMm = $imgWidth * 0.264583;
                 $imgHeightMm = $imgHeight * 0.264583;
 
-                $x = 280 - $imgWidthMm;
-                $y = 180 - $imgHeightMm;
+                if ($paperFormat == 'A4'){
+                    $x = 280 - $imgWidthMm;
+                    $y = 180 - $imgHeightMm;
+                }else{
+                    $x = 350 - $imgWidthMm;
+                    $y = 220 - $imgHeightMm;
+                }
+
 
                 for ($i = 1; $i <= $pageCount; $i++) {
                     $templateId = $mpdf->ImportPage($i);
@@ -233,7 +242,6 @@ function getCompany($data)
     return $company;
 }
 
-
 function dataInfoName($data)
 {
     $name = '';
@@ -279,4 +287,45 @@ function dataInfoName($data)
             break;
     }
     return $name;
+}
+
+if (!function_exists('convert_number_to_words')) {
+    function change_number_to_words($number)
+    {
+        $dictionary = new MojtabaaHN\PersianNumberToWords\Dictionary();
+        $converter = new MojtabaaHN\PersianNumberToWords\PersianNumberToWords($dictionary);
+        return $converter->convert($number);
+
+    }
+}
+
+
+function getPaperSizeFromPdf($pdfFile)
+{
+    $inputPdfPath = $pdfFile->getPathName();
+
+    $mpdf = new \Mpdf\Mpdf([
+        'tempDir' => storage_path('app/mpdf-temp'),
+    ]);
+
+    $pageCount = $mpdf->SetSourceFile($inputPdfPath);
+
+    $page = $mpdf->ImportPage(1);
+
+    $pageSize = $mpdf->getTemplateSize($page);
+
+
+    $width = round($pageSize['width']);
+    $height = round($pageSize['height']);
+
+    $A3Width = 420;
+    $A3Height = 297;
+    $A4Width =  297;
+    $A4Height = 210;
+
+    if ($width >= $A3Width || $height >= $A3Height) {
+        return 'A3';
+    } else {
+        return 'A4';
+    }
 }

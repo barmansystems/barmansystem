@@ -10,6 +10,7 @@ use App\Models\Customer;
 use App\Models\Factor;
 use App\Models\Invoice;
 use App\Models\InvoiceAction;
+use App\Models\Order;
 use App\Models\Permission;
 use App\Models\Product;
 use App\Models\Province;
@@ -59,13 +60,16 @@ class InvoiceController extends Controller
 
     public function store(StoreInvoiceRequest $request)
     {
+//        dd($request->all());
         $this->authorize('invoices-create');
 
         $req_for = $request->req_for;
 
+        $order = Order::where('code', $request->code)->first();
         $invoice = Invoice::create([
             'user_id' => auth()->id(),
-            'customer_id' => $request->buyer_name,
+            'order_id' => $order->id,
+            'customer_id' => $request->buyer_id,
             'economical_number' => $request->economical_number,
             'national_number' => $request->national_number,
             'need_no' => $request->need_no,
@@ -80,14 +84,14 @@ class InvoiceController extends Controller
             'description' => $request->description,
         ]);
 
-        $this->send_notif_to_accountants($invoice);
-        $this->send_notif_to_sales_manager($invoice);
+//        $this->send_notif_to_accountants($invoice);
+//        $this->send_notif_to_sales_manager($invoice);
 
         // create products for invoice
         $this->storeInvoiceProducts($invoice, $request);
 
-        // create order status
-        $invoice->order_status()->create(['order' => 1, 'status' => 'register']);
+        // create orders status
+        $invoice->order_status()->create(['orders' => 1, 'status' => 'register']);
 
         // log
         activity_log('create-invoice', __METHOD__, [$request->all(), $invoice]);
@@ -126,11 +130,12 @@ class InvoiceController extends Controller
             }
         }
 
-        if (auth()->user()->isAccountant()) {
-            return back();
-        }
+//        if (auth()->user()->isAccountant()) {
+//            return back();
+//        }
 
 //        $seller = Seller::first();
+
 
         return view('panel.invoices.edit', compact('invoice'));
     }
@@ -181,7 +186,6 @@ class InvoiceController extends Controller
         activity_log('edit-invoice', __METHOD__, [$request->all(), $invoice]);
 
         $invoice->update([
-            'customer_id' => $request->buyer_name,
             'req_for' => $req_for,
             'economical_number' => $request->economical_number,
             'national_number' => $request->national_number,
@@ -288,7 +292,7 @@ class InvoiceController extends Controller
         })->pluck('id');
 
         $customers_id = $request->customer_id == 'all' ? $customers->pluck('id') : [$request->customer_id];
-        $status = $request->status == 'all' ? ['pending', 'return', 'invoiced', 'order'] : [$request->status];
+        $status = $request->status == 'all' ? ['pending', 'return', 'invoiced', 'orders'] : [$request->status];
         $province = $request->province == 'all' ? Province::pluck('name') : [$request->province];
         $user_id = $request->user == 'all' || $request->user == null ? User::whereIn('role_id', $roles_id)->pluck('id') : [$request->user];
 
@@ -430,7 +434,10 @@ class InvoiceController extends Controller
             'margin_bottom' => 0,
         ]);
 
-        return $pdf->stream("order.pdf");
+        return response($pdf->output(), 200)
+            ->header('Content-Type', 'application/pdf')
+            ->header('Content-Disposition', 'attachment; filename="pre_invoice_' .make_slug(verta(now())). '.pdf"');
+
     }
 
     public function action(Invoice $invoice)
@@ -449,6 +456,7 @@ class InvoiceController extends Controller
     public function actionStore(Invoice $invoice, Request $request)
     {
         $status = $request->status;
+//        dd($request->all());
 
         if ($request->has('send_to_accountant')) {
             if (!$request->has('confirm')) {
@@ -586,7 +594,7 @@ class InvoiceController extends Controller
     public function deleteFactorFile(InvoiceAction $invoiceAction)
     {
         // log
-        activity_log(' delete-factor-file', __METHOD__, $invoiceAction);
+        activity_log('delete-factor-file', __METHOD__, $invoiceAction);
 
         unlink(public_path($invoiceAction->factor_file));
 
@@ -639,9 +647,9 @@ class InvoiceController extends Controller
         }
 
         $invoice->other_products()->delete();
-
         if ($request->other_products) {
             foreach ($request->other_products as $key => $product) {
+
                 $invoice->other_products()->create([
                     'title' => $product,
                     'color' => $request->other_colors[$key],
@@ -658,33 +666,31 @@ class InvoiceController extends Controller
         }
     }
 
-    private function send_notif_to_accountants(Invoice $invoice)
-    {
-        $roles_id = Role::whereHas('permissions', function ($q) {
-            $q->where('name', 'accountant');
-        })->pluck('id');
-        $accountants = User::where('id', '!=', auth()->id())->whereIn('role_id', $roles_id)->get();
+//    private function send_notif_to_accountants(Invoice $invoice)
+//    {
+//        $roles_id = Role::whereHas('permissions', function ($q) {
+//            $q->where('name', 'accountant');
+//        })->pluck('id');
+//        $accountants = User::where('id', '!=', auth()->id())->whereIn('role_id', $roles_id)->get();
+//
+//        $url = route('invoices.edit', $invoice->id);
+//        $message = "سفارش '{$invoice->customer->name}' ثبت شد";
+//
+//        Notification::send($accountants, new SendMessage($message, $url));
+//    }
 
-        $url = route('invoices.edit', $invoice->id);
-        $message = "سفارش '{$invoice->customer->name}' ثبت شد";
-
-        Notification::send($accountants, new SendMessage($message, $url));
-    }
-
-    private function send_notif_to_sales_manager(Invoice $invoice)
-    {
-        $roles_id = Role::whereHas('permissions', function ($q) {
-            $q->where('name', 'sales-manager');
-        })->pluck('id');
-        $managers = User::where('id', '!=', auth()->id())->whereIn('role_id', $roles_id)->get();
-
-        $url = route('invoices.edit', $invoice->id);
-        $message = "سفارش '{$invoice->customer->name}' ثبت شد";
-
-        Notification::send($managers, new SendMessage($message, $url));
-    }
-
-
+//    private function send_notif_to_sales_manager(Invoice $invoice)
+//    {
+//        $roles_id = Role::whereHas('permissions', function ($q) {
+//            $q->where('name', 'sales-manager');
+//        })->pluck('id');
+//        $managers = User::where('id', '!=', auth()->id())->whereIn('role_id', $roles_id)->get();
+//
+//        $url = route('invoices.edit', $invoice->id);
+//        $message = "پیش '{$invoice->customer->name}' ثبت شد";
+//
+//        Notification::send($managers, new SendMessage($message, $url));
+//    }
 
 
 }

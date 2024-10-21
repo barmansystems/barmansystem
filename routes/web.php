@@ -113,6 +113,7 @@ Route::middleware(['auth','web'])->prefix('/panel')->group(function () {
     Route::get('company-info-copy', [CompanyInfoController::class,'copyItem']);
     Route::post('company-info-print-data', [CompanyInfoController::class,'printData'])->name('company-info-print-data');
 
+    //orders
     Route::resource('/orders', OrderController::class);
     Route::get('order-action/{order}', [OrderController::class, 'orderAction'])->name('order.action');
     Route::post('order-action/{invoice}', [OrderController::class, 'actionStore'])->name('order.action.store');
@@ -121,7 +122,7 @@ Route::middleware(['auth','web'])->prefix('/panel')->group(function () {
 //    Route::match(['get', 'post'], '/order/search/orders', [OrderController::class, 'search'])->name('orders.search');
     Route::post('excel/orders', [OrderController::class, 'excel'])->name('orders.excel');
     Route::get('get-customer-order-status/{id}', [OrderController::class, 'getCustomerOrderStatus'])->name('order.get.customer.order.status');
-
+    Route::get('get-customer-order/{code}', [OrderController::class, 'getCustomerOrder'])->name('order.get.customer.order');
 
 
     //setad fee

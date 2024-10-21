@@ -12,6 +12,7 @@ use App\Models\InvoiceAction;
 use App\Models\Order;
 use App\Models\OrderAction;
 use App\Models\Permission;
+use App\Models\Product;
 use App\Models\Province;
 use App\Models\Role;
 use App\Models\User;
@@ -26,52 +27,38 @@ class OrderController extends Controller
 
     public function index()
     {
-
-
         $this->authorize('customer-order-list');
 
         $orders = Order::query();
 
+        if ($code = request()->query('code')) {
+            $orders->where('code', 'like', '%' . $code . '%');
+        }
+
+        if ($status1 = request()->query('status')) {
+            $status = $status1 == 'all' ? ['pending', 'invoiced', 'orders'] : [$status1];
+            $orders->whereIn('status', $status);
+        }
+
+        if ($customer = request()->query('customer_id')) {
+            $customers = Customer::pluck('id');
+            $customers_id = $customer == 'all' ? $customers : [$customer];
+            $orders->whereIn('customer_id', $customers_id);
+        }
+
         if (auth()->user()->isAdmin() || auth()->user()->isAccountant() || auth()->user()->isCEO()) {
-
-            if ($code = request()->query('code')) {
-
-                $orders->where('code', 'like', '%' . $code . '%');
-
-            }
-            if ($status1 = request()->query('status')) {
-                $status = $status1 == 'all' ? ['pending','invoiced', 'orders'] : [$status1];
-                $orders->whereIn('status', $status);
-            }
-            if ($customer = request()->query('customer_id')) {
-                $customers = Customer::all(['id', 'name']);
-                $customers_id = $customer == 'all' ? $customers->pluck('id') : [$customer];
-                $orders->where('customer_id', $customers_id);
-            }
             $orders = $orders->latest()->paginate(30);
         } else {
-            if ($code = request()->query('code')) {
-
-                $orders->where('code', 'like', '%' . $code . '%');
-
-            }
-            if ($status1 = request()->query('status')) {
-                $status = $status1 == 'all' ? ['pending','invoiced', 'orders'] : [$status1];
-                $orders->whereIn('status', $status);
-            }
-            if ($customer = request()->query('customer_id')) {
-                $customers = Customer::all(['id', 'name']);
-                $customers_id = $customer == 'all' ? $customers->pluck('id') : [$customer];
-                $orders->where('customer_id', $customers_id);
-            }
             $orders = $orders->where('user_id', auth()->id())->latest()->paginate(30);
         }
+
         $customers = Customer::all(['id', 'name']);
         $permissionsId = Permission::whereIn('name', ['partner-tehran-user', 'partner-other-user', 'system-user', 'single-price-user'])->pluck('id');
 
         $roles_id = Role::whereHas('permissions', function ($q) use ($permissionsId) {
             $q->whereIn('permission_id', $permissionsId);
         })->pluck('id');
+
         return view('panel.orders.index', compact(['orders', 'customers', 'roles_id']));
     }
 
@@ -259,6 +246,7 @@ class OrderController extends Controller
             );
             //end send notif to accountants
 
+
         } elseif ($request->has('send_to_warehouse')) {
             $request->validate(['factor_file' => 'required|mimes:pdf|max:5000']);
 
@@ -288,8 +276,10 @@ class OrderController extends Controller
             Notification::send($accountants, new SendMessage($notif_message, $url));
             //end send notif to warehouse-keeper and sales-manager
         } else {
+
             if ($status == 'invoice') {
                 $request->validate(['invoice_file' => 'required|mimes:pdf|max:5000']);
+
 
                 $file = upload_file_factor($request->invoice_file, 'Action/Invoices');
                 $invoice->action()->updateOrCreate([
@@ -347,68 +337,29 @@ class OrderController extends Controller
 
         // log
         activity_log('order-action', __METHOD__, [$request->all(), $invoice]);
-
         $invoice->order_status()->updateOrCreate(
             ['status' => 'processing_by_accountant_step_1'],
             ['orders' => 2, 'status' => 'processing_by_accountant_step_1']
         );
-
         $invoice->order_status()->updateOrCreate(
             ['status' => 'pre_invoice'],
             ['orders' => 3, 'status' => 'pre_invoice']
         );
-
         alert()->success($message, $title);
         return back();
     }
 
-//    public function search(Request $request)
-//    {
-//        $this->authorize('customer-order-list');
-//        $customers = Customer::all(['id', 'name']);
-//
-//        $permissionsId = Permission::whereIn('name', ['partner-tehran-user', 'partner-other-user', 'system-user', 'single-price-user'])->pluck('id');
-//        $roles_id = Role::whereHas('permissions', function ($q) use ($permissionsId) {
-//            $q->whereIn('permission_id', $permissionsId);
-//        })->pluck('id');
-//
-//        $customers_id = $request->customer_id == 'all' ? $customers->pluck('id') : [$request->customer_id];
-//        $status = $request->status == 'all' ? ['pending', 'return', 'invoiced', 'orders'] : [$request->status];
-//        $province = $request->province == 'all' ? Province::pluck('name') : [$request->province];
-//        $user_id = $request->user == 'all' || $request->user == null ? User::whereIn('role_id', $roles_id)->pluck('id') : [$request->user];
-//
-////        dd($user_id);
-//        if (auth()->user()->isAdmin() || auth()->user()->isWareHouseKeeper() || auth()->user()->isAccountant() || auth()->user()->isCEO() || auth()->user()->isSalesManager()) {
-//            $orders = Order::when($request->need_no, function ($q) use ($request) {
-//                return $q->where('need_no', $request->need_no);
-//            })
-//                ->whereIn('user_id', $user_id)
-//                ->whereIn('customer_id', $customers_id)
-//                ->whereIn('status', $status)
-//                ->latest()->paginate(30);
-//        } else {
-//            $orders = Order::when($request->need_no, function ($q) use ($request) {
-//                return $q->where('need_no', $request->need_no);
-//            })->whereIn('customer_id', $customers_id)
-//                ->whereIn('status', $status)
-//                ->whereIn('province', $province)
-//                ->where('user_id', auth()->id())
-//                ->latest()->paginate(30);
-//        }
-//
-//        return view('panel.orders.index', compact(['orders', 'customers', 'roles_id']));
-//    }
 
     public function deleteInvoiceFile(OrderAction $orderAction)
     {
-        // log
-//        dd($orderAction);
+
         $order = Order::whereId($orderAction->order_id)->first();
         activity_log('delete-invoice-file', __METHOD__, $orderAction);
 
         $order->order_status()->where('status', 'processing_by_accountant_step_1')->delete();
         $order->order_status()->where('status', 'pre_invoice')->delete();
 
+        $order->update(['status' => 'orders']);
         unlink(public_path($orderAction->invoice_file));
         $orderAction->delete();
 
@@ -463,10 +414,12 @@ class OrderController extends Controller
         Notification::send($managers, new SendMessage($message, $url));
     }
 
+
     public function excel()
     {
         return Excel::download(new \App\Exports\OrderExport, 'orders.xlsx');
     }
+
 
     public function getCustomerOrderStatus($id)
     {
@@ -493,21 +446,19 @@ class OrderController extends Controller
             ];
         }
 
-
         $lastDateIndex = -1;
+
         foreach ($statusData as $index => $statusItem) {
             if (!empty($statusItem['date'])) {
                 $lastDateIndex = $index;
             }
         }
-
-
         if ($lastDateIndex !== -1 && $lastDateIndex + 1 < count($statusData)) {
             $statusData[$lastDateIndex + 1]['pending'] = true;
         }
-
         return response()->json($statusData);
     }
+
 
     public function generateCode()
     {
@@ -520,5 +471,59 @@ class OrderController extends Controller
         return $code;
     }
 
+
+    public function getCustomerOrder($code)
+    {
+        $order = Order::where('code', $code)->first();
+
+        $mergedProducts = [];
+
+        if ($order) {
+            $decodedProducts = json_decode($order->products);
+
+            if (!empty($decodedProducts->products)) {
+                $productIds = collect($decodedProducts->products)->pluck('products');
+                $productsFromDB = Product::whereIn('id', $productIds)->get()->keyBy('id');
+
+                foreach ($decodedProducts->products as $product) {
+                    $productModel = $productsFromDB->get($product->products);
+                    $mergedProducts[] = [
+                        'title' => $productModel ? $productModel->title : 'Unknown Product',
+                        'color' => Product::COLORS[$product->colors] ?? 'Unknown Color',
+                        'count' => $product->counts,
+                        'unit' => $product->units,
+                        'price' => 0,
+                    ];
+                }
+            }
+
+            if (!empty($decodedProducts->other_products)) {
+                foreach ($decodedProducts->other_products as $product) {
+                    $mergedProducts[] = [
+                        'title' => $product->other_products,
+                        'color' => $product->other_colors,
+                        'count' => $product->other_counts,
+                        'unit' => $product->other_units,
+                        'price' => 0,
+                    ];
+                }
+            }
+
+            $data = [
+                'customer' => $order->customer,
+                'order' => $mergedProducts
+            ];
+            $response = [
+                'status' => 'success',
+                'data' => $data
+            ];
+            return response()->json($response, 200);
+        }
+        $response = [
+            'status' => 'failed',
+            'data' => null
+        ];
+        return response()->json($response, 200);
+    }
 
 }

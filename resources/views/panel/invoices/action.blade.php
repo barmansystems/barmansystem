@@ -1,5 +1,5 @@
 @extends('panel.layouts.master')
-@section('title', 'تعیین وضعیت سفارش')
+@section('title', 'تعیین وضعیت پیش فاکتور ها')
 @section('styles')
     <style>
         .btn.btn-primary:not(:disabled):not(.disabled):focus, a.btn:not(:disabled):not(.disabled):focus[href="#next"], a.btn:not(:disabled):not(.disabled):focus[href="#previous"], .btn-primary {
@@ -74,7 +74,7 @@
             <div class="row">
                 <div class="col-12">
                     <div class="page-title-box">
-                        <h4 class="page-title">تعیین وضعیت سفارش</h4>
+                        <h4 class="page-title">تعیین وضعیت پیش فاکتور</h4>
                     </div>
                 </div>
             </div>

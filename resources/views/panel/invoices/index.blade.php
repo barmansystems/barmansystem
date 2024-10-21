@@ -1,5 +1,5 @@
 @extends('panel.layouts.master')
-@section('title', 'سفارشات')
+@section('title', 'پیش فاکتور ها')
 @section('content')
     <div class="content">
         <div class="container-fluid">
@@ -7,7 +7,7 @@
             <div class="row">
                 <div class="col-12">
                     <div class="page-title-box">
-                        <h4 class="page-title">سفارشات</h4>
+                        <h4 class="page-title">پیش فاکتور ها</h4>
                     </div>
                 </div>
             </div>
@@ -34,7 +34,7 @@
                             @endcan
                             <div class="card-title d-flex justify-content-end">
                                 <div>
-                                    <form action="{{ route('invoices.excel') }}" method="post" id="excel_form">
+                                    <form action="{{ route('orders.excel') }}" method="post" id="excel_form">
                                         @csrf
                                     </form>
 
@@ -44,20 +44,19 @@
                                     </button>
 
                                     @can('invoices-create')
-{{--                                        @cannot('accountant')--}}
-                                            <a href="{{ route('invoices.create') }}" class="btn btn-primary">
-                                                <i class="fa fa-plus mr-2"></i>
-                                                ایجاد سفارش
-                                            </a>
-{{--                                        @endcannot--}}
+                                        {{--                                        @cannot('accountant')--}}
+                                        <a href="{{ route('invoices.create') }}" class="btn btn-primary">
+                                            <i class="fa fa-plus mr-2"></i>
+                                            ایجاد پیش فاکتور
+                                        </a>
+                                        {{--                                        @endcannot--}}
                                     @endcan
                                 </div>
                             </div>
                             <form action="{{ route('invoices.search') }}" method="get" id="search_form"></form>
                             <div class="row mb-3 mt-5">
                                 <div class="col-xl-2 col-lg-2 col-md-3 col-sm-12">
-                                    <select name="customer_id" form="search_form" class="form-control"
-                                            data-toggle="select2">
+                                    <select name="customer_id" form="search_form" class="form-control" data-toggle="select2">
                                         <option value="all">خریدار (همه)</option>
                                         @foreach($customers as $customer)
                                             <option
@@ -110,6 +109,7 @@
                                     <thead>
                                     <tr>
                                         <th>#</th>
+                                        <th>شناسه سفارش</th>
                                         <th>خریدار</th>
                                         <th>درخواست جهت</th>
                                         <th>استان</th>
@@ -123,28 +123,29 @@
                                         {{--                        @canany(['accountant','admin','ceo'])--}}
                                         <th>مشاهده سفارش</th>
                                         {{--                        @endcanany--}}
-                                        <th>وضعیت سفارش</th>
-                                        @can('warehouse-keeper')
-                                            <th>فاکتور</th>
-                                        @else
-                                            @canany(['sales-manager','accountant'])
-                                                <th>اقدام</th>
-                                            @endcanany
+                                        {{--                                        <th>وضعیت سفارش</th>--}}
+                                        {{--                                        @can('warehouse-keeper')--}}
+                                        {{--                                            <th>فاکتور</th>--}}
+                                        {{--                                        @else--}}
+                                        {{--                                            @canany(['sales-manager','accountant'])--}}
+                                        {{--                                                <th>اقدام</th>--}}
+                                        {{--                                            @endcanany--}}
+                                        {{--                                        @endcan--}}
+                                        {{--                                        @cannot('accountant')--}}
+                                        @can('invoices-edit')
+                                            <th>ویرایش</th>
                                         @endcan
-                                        @cannot('accountant')
-                                            @can('invoices-edit')
-                                                <th>ویرایش</th>
-                                            @endcan
-                                            @can('invoices-delete')
-                                                <th>حذف</th>
-                                            @endcan
-                                        @endcannot
+                                        @can('invoices-delete')
+                                            <th>حذف</th>
+                                        @endcan
+                                        {{--                                        @endcannot--}}
                                     </tr>
                                     </thead>
                                     <tbody>
                                     @foreach($invoices as $key => $invoice)
                                         <tr>
                                             <td>{{ ++$key }}</td>
+                                            <td><a href="/panel/orders?code={{$invoice->order->code??'-'}}">{{ $invoice->order->code??'-' }}</a></td>
                                             <td>{{ $invoice->customer->name }}</td>
                                             <td>{{ \App\Models\Invoice::REQ_FOR[$invoice->req_for] }}</td>
                                             <td>{{ $invoice->province }}</td>
@@ -160,78 +161,79 @@
                                             <td>{{ verta($invoice->created_at)->format('H:i - Y/m/d') }}</td>
                                             {{--                            @canany(['accountant','admin','ceo'])--}}
                                             <td>
-                                                <a class="btn btn-info btn-floating" href="{{ route('invoices.show', $invoice->id) }}">
+                                                <a class="btn btn-info btn-floating"
+                                                   href="{{ route('invoices.show', $invoice->id) }}">
                                                     <i class="fa fa-eye"></i>
                                                 </a>
                                             </td>
 
-                                            {{--                            @endcanany --}}
-                                            <td>
-                                                {{-- invoices before 2024-02-03 order-status disabled --}}
-                                                <a href="{{ route('orders-status.index', $invoice->id) }}"
-                                                   class="btn btn-purple btn-floating {{ $invoice->created_at < verta('2024-02-03 00:00:00') ? 'disabled' : '' }}"
-                                                   target="_blank">
-                                                    <i class="fa fa-truck"></i>
-                                                </a>
-                                            </td>
-                                            @can('warehouse-keeper')
+                                            {{--                            @endcanany--}}
+                                            {{--                                            <td>--}}
+                                            {{--                                                --}}{{-- invoices before 2024-02-03 orders-status disabled --}}
+                                            {{--                                                <a href="{{ route('orders-status.index', $invoice->id) }}"--}}
+                                            {{--                                                   class="btn btn-purple btn-floating {{ $invoice->created_at < verta('2024-02-03 00:00:00') ? 'disabled' : '' }}"--}}
+                                            {{--                                                   target="_blank">--}}
+                                            {{--                                                    <i class="fa fa-truck"></i>--}}
+                                            {{--                                                </a>--}}
+                                            {{--                                            </td>--}}
+                                            {{--                                            @can('warehouse-keeper')--}}
 
-                                                <td>
-                                                    <a href="{{ $invoice->action ? $invoice->action->factor_file ?? '#' : '#' }}"
-                                                       class="btn btn-primary btn-floating {{ $invoice->action ? $invoice->action->factor_file ? '' : 'disabled' : 'disabled' }}"
-                                                       target="_blank">
-                                                        <i class="fa fa-download"></i>
-                                                    </a>
-                                                </td>
-                                            @else
-                                                @canany(['sales-manager','accountant'])
+                                            {{--                                                <td>--}}
+                                            {{--                                                    <a href="{{ $invoice->action ? $invoice->action->factor_file ?? '#' : '#' }}"--}}
+                                            {{--                                                       class="btn btn-primary btn-floating {{ $invoice->action ? $invoice->action->factor_file ? '' : 'disabled' : 'disabled' }}"--}}
+                                            {{--                                                       target="_blank">--}}
+                                            {{--                                                        <i class="fa fa-download"></i>--}}
+                                            {{--                                                    </a>--}}
+                                            {{--                                                </td>--}}
+                                            {{--                                            @else--}}
+                                            {{--                                                @canany(['sales-manager','accountant'])--}}
+                                            {{--                                                    <td>--}}
+                                            {{--                                                        <a class="btn btn-primary btn-floating @cannot('accountant') {{ $invoice->action ? '' : 'disabled' }} @endcannot"--}}
+                                            {{--                                                           href="{{ route('invoice.action', $invoice->id) }}">--}}
+                                            {{--                                                            <i class="fa fa-edit"></i>--}}
+                                            {{--                                                        </a>--}}
+                                            {{--                                                    </td>--}}
+                                            {{--                                                @endcanany--}}
+                                            {{--                                            @endcan--}}
+                                            {{--                                            @cannot('accountant')--}}
+                                            @can('sales-manager')
+                                                @can('invoices-edit')
                                                     <td>
-                                                        <a class="btn btn-primary btn-floating @cannot('accountant') {{ $invoice->action ? '' : 'disabled' }} @endcannot"
-                                                           href="{{ route('invoice.action', $invoice->id) }}">
+                                                        <a class="btn btn-warning btn-floating {{ $invoice->created_in == 'website' ? 'disabled' : '' }}"
+                                                           href="{{ route('invoices.edit', $invoice->id) }}">
                                                             <i class="fa fa-edit"></i>
                                                         </a>
                                                     </td>
-                                                @endcanany
-                                            @endcan
-{{--                                            @cannot('accountant')--}}
-                                                @can('sales-manager')
-                                                    @can('invoices-edit')
-                                                        <td>
-                                                            <a class="btn btn-warning btn-floating {{ $invoice->created_in == 'website' ? 'disabled' : '' }}"
-                                                               href="{{ route('invoices.edit', $invoice->id) }}">
-                                                                <i class="fa fa-edit"></i>
-                                                            </a>
-                                                        </td>
-                                                    @endcan
-                                                    @can('invoices-delete')
-                                                        <td>
-                                                            <button class="btn btn-danger btn-floating trashRow"
-                                                                    data-url="{{ route('invoices.destroy',$invoice->id) }}"
-                                                                    data-id="{{ $invoice->id }}" {{ $invoice->created_in == 'website' ? 'disabled' : '' }}>
-                                                                <i class="fa fa-trash"></i>
-                                                            </button>
-                                                        </td>
-                                                    @endcan
-                                                @else
-                                                    @can('invoices-edit')
-                                                        <td>
-                                                            <a class="btn btn-warning btn-floating {{ $invoice->created_in == 'website' || ($invoice->status == 'invoiced' && $invoice->req_for != 'amani-invoice') ? 'disabled' : '' }}"
-                                                               href="{{ route('invoices.edit', $invoice->id) }}">
-                                                                <i class="fa fa-edit"></i>
-                                                            </a>
-                                                        </td>
-                                                    @endcan
-                                                    @can('invoices-delete')
-                                                        <td>
-                                                            <button class="btn btn-danger btn-floating trashRow"
-                                                                    data-url="{{ route('invoices.destroy',$invoice->id) }}"
-                                                                    data-id="{{ $invoice->id }}" {{ $invoice->created_in == 'website' || $invoice->status == 'invoiced' ? 'disabled' : '' }}>
-                                                                <i class="fa fa-trash"></i>
-                                                            </button>
-                                                        </td>
-                                                    @endcan
                                                 @endcan
-{{--                                            @endcannot--}}
+                                                @can('invoices-delete')
+                                                    <td>
+                                                        <button class="btn btn-danger btn-floating trashRow"
+                                                                data-url="{{ route('invoices.destroy',$invoice->id) }}"
+                                                                data-id="{{ $invoice->id }}" {{ $invoice->created_in == 'website' ? 'disabled' : '' }}>
+                                                            <i class="fa fa-trash"></i>
+                                                        </button>
+                                                    </td>
+                                                @endcan
+                                            @else
+                                                @can('invoices-edit')
+                                                    <td>
+                                                        <a class="btn btn-warning btn-floating {{ $invoice->created_in == 'website' || ($invoice->status == 'invoiced' && $invoice->req_for != 'amani-invoice') ? 'disabled' : '' }}"
+                                                           href="{{ route('invoices.edit', $invoice->id) }}">
+                                                            <i class="fa fa-edit"></i>
+                                                        </a>
+                                                    </td>
+                                                @endcan
+                                                @can('invoices-delete')
+                                                    <td>
+                                                        <button class="btn btn-danger btn-floating trashRow"
+                                                                data-url="{{ route('invoices.destroy',$invoice->id) }}"
+                                                                data-id="{{ $invoice->id }}" {{ $invoice->created_in == 'website' || $invoice->status == 'invoiced' ? 'disabled' : '' }}>
+                                                            <i class="fa fa-trash"></i>
+                                                        </button>
+                                                    </td>
+                                                @endcan
+                                            @endcan
+                                            {{--                                            @endcannot--}}
                                         </tr>
                                     @endforeach
                                     </tbody>
@@ -241,8 +243,7 @@
                                     </tfoot>
                                 </table>
                             </div>
-                            <div
-                                class="d-flex justify-content-center">{{ $invoices->appends(request()->all())->links() }}</div>
+                            <div class="d-flex justify-content-center">{{ $invoices->appends(request()->all())->links() }}</div>
                         </div>
                     </div>
                 </div>
