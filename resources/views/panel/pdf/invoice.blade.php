@@ -96,7 +96,7 @@
                         <img src="{{ public_path('/assets/images/img/logo-barman-red.png') }}" style="width: 15rem;">
                     </td>
                     <td>
-                        <span style="font-size: 25px">سفارش مشتری</span>
+                        <span style="font-size: 25px">پیش فاکتور فروش کالا و خدمات</span>
                     </td>
                     <td style="width: 200px">
                         <p style="font-size: 15px">شماره سریال: {{ $invoice->id }}</p>
