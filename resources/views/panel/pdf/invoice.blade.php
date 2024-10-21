@@ -118,21 +118,21 @@
                         <tr>
                             <td>
                                 <div>
-                                    <span>نام شخص حقیقی/حقوقی: بازرگانی پرسو تجارت ایرانیان</span>
+                                    <span>نام شخص حقیقی/حقوقی: بارمان سیستم سرزمین پارس</span>
                                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                    <span>شماره اقتصادی: 10103472930</span>
+                                    <span>شماره اقتصادی: 10320471925</span>
                                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                    <span>شماره ثبت/شماره ملی: 309754</span>
+                                    <span>شماره ثبت/شماره ملی: 396431</span>
                                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                    <span>شناسه ملی: 10103472930</span>
+                                    <span>شناسه ملی: 10320471925</span>
                                 </div>
                                 <div style="height: 2rem">&nbsp;</div>
                                 <div>
-                                    <span>نشانی: خیابان کریمخان، خیابان ایرانشهر، پلاک 242، طبقه پنجم</span>
+                                    <span>نشانی: تهران ، خیابان هوشیار ، پلاک 474،طبقه دوم، واحد 12</span>
                                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                    <span>کد پستی: 1584745337</span>
+                                    <span>کد پستی: 1341963331</span>
                                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                    <span>شماره تلفن: 02188867100</span>
+                                    <span>شماره تلفن: 216637405</span>
                                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                                 </div>
                             </td>
@@ -300,7 +300,7 @@
                             <tr>
                                 <td colspan="12">
                                     خواهشمند است مبلغ فاكتور را به شماره شبا IR23-0120-0000-0000-9811-6814-08 نزد بانك ملت شعبه
-                                    شعبه مستقل مرکزی واريز نماييد. با تشكر
+                                     مستقل مرکزی واريز نماييد. با تشكر
                                     <br>
                                     <br>
                                     آدرس سایت https://barmansystem.com
@@ -324,7 +324,7 @@
                                 </td>
                                 <td>
                                     <img src="{{ $invoice->user->sign_image ? public_path($invoice->user->sign_image) : '' }}" style="width: 10rem">
-                                    <img src="{{ public_path('assets/images/stamp.png') }}" style="width: 13rem">
+                                    <img src="{{ asset('/assets/images/mohr-emza-barman.png') }}" style="width: 13rem">
                                 </td>
                                 <td></td>
                                 <td></td>
