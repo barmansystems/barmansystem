@@ -102,7 +102,7 @@
                                                 @endif
                                             </div>
                                             <div class="conversation-text">
-                                                <div class="ctext-wrap">
+                                                <div class="ctext-wrap text-start">
                                                     <i>{{ $message['user']['name'].' '. $message['user']['family'] }}</i>
                                                     <p>{!! nl2br(e($message['text'])) !!}</p>
                                                     <hr class="my-0 mt-2">
@@ -150,7 +150,7 @@
                                     @else
                                         <li class="clearfix odd" @if($loop->last) id="last_message" @endif>
                                             <div class="conversation-text">
-                                                <div class="ctext-wrap">
+                                                <div class="ctext-wrap text-start">
                                                     <i>{{ $message['user']['name'].' '. $message['user']['family'] }}</i>
                                                     <p>{!! nl2br(e($message['text'])) !!}</p>
                                                     <hr class="my-0 mt-2">
