@@ -71,6 +71,7 @@ class ActivityLog extends Model
         'delete-factor-file' => 'حذف فایل فاکتور',
         'order-change-status' => 'تغییر وضعیت سفارش',
         'order-add-desc' => 'افزودن توضحات سفارش',
+        'orders-change-status' => 'تغییر وضعیت سفارش',
 
         // buy-orders
         'create-buy-order' => 'ثبت سفارش خرید',
