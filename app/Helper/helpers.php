@@ -77,7 +77,6 @@ if (!function_exists('upload_file_factor')) {
 
                 $imagePath = public_path('assets/images/mohr-emza-barman.png');
 
-
                 $mpdf = new \Mpdf\Mpdf([
                     'tempDir' => storage_path('app/mpdf-temp'),
                     'format' => $paperFormat,

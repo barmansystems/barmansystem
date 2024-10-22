@@ -145,7 +145,7 @@
                     </div>
                     <div class="col-2"></div>
                     <div class="col-2 text-center">
-                        <p class="m-0"> شماره سریال: {{ $invoice->id }}</p>
+                        <p class="m-0"> شماره سریال: {{ $invoice->order->code??$invoice->id  }}</p>
                         <hr class="mt-0">
                         <p class="m-0">تاریخ: {{ verta($invoice->created_at)->format('Y/m/d') }}</p>
                         <hr class="mt-0">

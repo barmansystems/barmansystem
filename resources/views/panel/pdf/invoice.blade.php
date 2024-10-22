@@ -99,7 +99,7 @@
                         <span style="font-size: 25px">پیش فاکتور فروش کالا و خدمات</span>
                     </td>
                     <td style="width: 200px">
-                        <p style="font-size: 15px">شماره سریال: {{ $invoice->id }}</p>
+                        <p style="font-size: 15px">شماره سریال: {{ $invoice->order->code??$invoice->id  }}</p>
                         <br>
                         <p style="font-size: 15px">تاریخ: {{ verta($invoice->created_at)->format('Y/m/d') }}</p>
                     </td>
